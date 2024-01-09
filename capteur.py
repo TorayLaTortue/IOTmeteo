@@ -11,3 +11,4 @@ temperature,pressure,humidity = bme280.readBME280All()
 print("Température: {} °C".format(temperature))
 print("Humidité: {} %".format(humidity))
 print("Pression: {} hPa".format(pressure))
+
