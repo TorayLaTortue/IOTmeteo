@@ -1,5 +1,4 @@
 <!--http://127.0.0.1/Station%20m%c3%a9t%c3%a9o/IOTmeteo/dashboard.php -->
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -7,10 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ma Page Web</title>
     <link rel="stylesheet" href="dashboard.css">
-</head>
 
-<body>
-<header>
+
+
+</head>
+<body class="main-body">
+
+<header class="site-header">
     <div class="header-container">
         <nav>
             <img src="image/TooboLogo.png" alt="Logo Mascotte">
@@ -23,20 +25,26 @@
 </header>
 
 
-<!-- Ajout de la colonne à gauche -->
-<aside class="left-column">
-    <button>Sonde 1</button>
-    <button>Sonde 2</button>
-    <button>Sonde 3</button>
-</aside>
 
-    
-<h2>Tableau de bord</h2>
-<ul>
-    <li>Taux d'humidité</li>
-    <li>Température</li>
-    <li>Pression atmosphérique</li>
-</ul>
+<div class="content-body">
+    <!-- Ajout de la colonne à gauche -->
+    <aside class="left-column">
+        <button>Sonde 1</button>
+        <button>Sonde 2</button>
+        <button>Sonde 3</button>
+    </aside>
+
+    <div class="dashboard">
+        <h2>Tableau de bord</h2>
+        
+        <canvas id="barCanvasTemp" aria-label="chart" role="img"></canvas>
+        <canvas id="barCanvasHumidité" aria-label="chart" role="img"></canvas>
+        <canvas id="barCanvasPression" aria-label="chart" role="img"></canvas>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+        <script src="script.js"></script>
+    </div>
+</div>
 
 </body>
 </html>

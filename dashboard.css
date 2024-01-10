@@ -2,10 +2,13 @@ html{
     background-color: lightgray;
 }
 
+
+
 /* Styles pour l'en-tête */
-header {
+.site-header {
     background-color: rgba(255, 183, 2, 1);
     padding: 10px 0;
+    width: 100%;
 }
 
 /* Styles pour le conteneur de l'en-tête */
@@ -38,13 +41,38 @@ nav h1 {
     padding: 20px; /* Espacement interne de la colonne */
     width: 200px; /* Largeur de la colonne */
     box-shadow: 2px 0 5px #888; /* Ombre légère à droite de la colonne */
-    height: 100vh;
-
 }
 
 .left-column button {
-    display: block;
+    display: flex;
     width: 100%; /* Les boutons prennent 100% de la largeur de la colonne */
     margin-bottom: 10px; /* Espacement entre les boutons */
 }
 
+
+.content-body{
+    display: flex;
+    
+
+}
+
+.dashboard{
+    display: flex;
+    width: 100%;
+    margin: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+aside{
+    display:list-item;
+}
+#barCanvasTemp,
+#barCanvasHumidité,
+#barCanvasPression {
+    width: 80%; /* Ajustez la largeur selon vos besoins */
+    height: 40vw; /* Utilisez une hauteur basée sur la largeur pour maintenir le rapport d'aspect 2:1 */
+    display: flex;
+    margin: 20px;
+    border: 1px solid #ddd; /* Ajouter une bordure pour une meilleure visibilité */
+}
