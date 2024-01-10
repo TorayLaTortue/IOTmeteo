@@ -17,7 +17,11 @@ try {
     $sqlCreateUtilisateurTable = '
     CREATE TABLE IF NOT EXISTS utilisateur (
         idutilisateur INT PRIMARY KEY,
-        Email VARCHAR(255) UNIQUE NOT NULL
+        Email VARCHAR(255) UNIQUE NOT NULL,
+        Email VARCHAR(255) UNIQUE NOT NULL,
+        mdp VARCHAR(25),
+        ville VARCHAR(50),
+        date_de_naissance DATE
     );
     ';
 
