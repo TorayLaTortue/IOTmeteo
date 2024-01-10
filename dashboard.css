@@ -32,12 +32,6 @@ nav h1 {
     margin: 0;
 }
 
-/* Styles pour le bouton de déconnexion */
-form {
-    margin: 0;
-
-}
-
 /* Styles pour la colonne à gauche */
 .left-column {
     background-color: #f1f1f1; /* Couleur de fond de la colonne */
