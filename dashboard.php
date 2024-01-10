@@ -1,42 +1,42 @@
+<!--http://127.0.0.1/Station%20m%c3%a9t%c3%a9o/IOTmeteo/dashboard.php -->
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ma Page Web</title>
-    <!-- Ajoutez vos feuilles de style CSS ici -->
     <link rel="stylesheet" href="dashboard.css">
 </head>
+
 <body>
-
-    <header>
-        <h1>Titre de ma page</h1>
+<header>
+    <div class="header-container">
         <nav>
-            <ul>
-                <li><a href="#">Accueil</a></li>
-                <li><a href="#">À propos</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
+            <img src="image/TooboLogo.png" alt="Logo Mascotte">
+            <h1>Station Toobo</h1>
+            <form action="traitement.php" method="post">
+                <input type="submit" value="Deconnexion" />
+            </form>
         </nav>
-    </header>
+    </div>
+</header>
 
-    <main>
-        <section>
-            <h2>Section 1</h2>
-            <p>Contenu de la section 1.</p>
-        </section>
 
-        <section>
-            <h2>Section 2</h2>
-            <p>Contenu de la section 2.</p>
-        </section>
-    </main>
+<!-- Ajout de la colonne à gauche -->
+<aside class="left-column">
+    <button>Sonde 1</button>
+    <button>Sonde 2</button>
+    <button>Sonde 3</button>
+</aside>
 
-    <footer>
-        <p>&copy; 2024 Ma Page Web. Tous droits réservés.</p>
-    </footer>
+    
+<h2>Tableau de bord</h2>
+<ul>
+    <li>Taux d'humidité</li>
+    <li>Température</li>
+    <li>Pression atmosphérique</li>
+</ul>
 
-    <!-- Ajoutez vos scripts JavaScript ici -->
-    <!-- <script src="script.js"></script> -->
 </body>
 </html>

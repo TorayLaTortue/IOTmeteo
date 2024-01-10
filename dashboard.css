@@ -1,0 +1,56 @@
+html{
+    background-color: lightgray;
+}
+
+/* Styles pour l'en-tête */
+header {
+    background-color: rgba(255, 183, 2, 1);
+    padding: 10px 0;
+}
+
+/* Styles pour le conteneur de l'en-tête */
+.header-container {
+    display: flex;
+    justify-content:space-around;
+    align-items: center;
+    padding: 0 20px;
+}
+
+/* Styles pour la navigation */
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+nav img {
+    width: 12%;
+}
+
+nav h1 {
+    margin: 0;
+}
+
+/* Styles pour le bouton de déconnexion */
+form {
+    margin: 0;
+
+}
+
+/* Styles pour la colonne à gauche */
+.left-column {
+    background-color: #f1f1f1; /* Couleur de fond de la colonne */
+    padding: 20px; /* Espacement interne de la colonne */
+    width: 200px; /* Largeur de la colonne */
+    box-shadow: 2px 0 5px #888; /* Ombre légère à droite de la colonne */
+    height: 100vh;
+
+}
+
+.left-column button {
+    display: block;
+    width: 100%; /* Les boutons prennent 100% de la largeur de la colonne */
+    margin-bottom: 10px; /* Espacement entre les boutons */
+}
+
