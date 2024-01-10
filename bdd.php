@@ -13,6 +13,14 @@ try {
     $bdd = new PDO("pgsql:host=$host;port=5432;dbname=$dbname", $user, $password);
     $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+
+    $sqlCreateDatabase = "CREATE DATABASE IF NOT EXISTS $dbname";
+    $bdd->exec($sqlCreateDatabase);
+    echo "Database $dbname créée avec succès ou déjà existante.";
+
+    // Sélection de la base de données
+    $bdd->exec("USE $dbname");
+    
     // Creation des 3 tables
     $sqlCreateUtilisateurTable = '
     CREATE TABLE IF NOT EXISTS utilisateur (
