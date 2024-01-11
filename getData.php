@@ -58,13 +58,34 @@ $temperatures = $stmtSelect->fetchAll(PDO::FETCH_COLUMN);
 // Calculer la moyenne de la température
 $températureMoyenne = array_sum($temperatures) / count($temperatures);
 
+// Récupérer la moyenne de l'humidité des 5 dernières valeurs depuis la table readings
+$sqlSelectHumidity = 'SELECT humidité FROM readings ORDER BY idsonde DESC LIMIT 5';
+$stmtSelectHumidity = $bdd->prepare($sqlSelectHumidity);
+$stmtSelectHumidity->execute();
+$humidities = $stmtSelectHumidity->fetchAll(PDO::FETCH_COLUMN);
+
+// Calculer la moyenne de l'humidité
+$humiditéMoyenne = array_sum($humidities) / count($humidities);
+
+// Récupérer la moyenne de la pression des 5 dernières valeurs depuis la table readings
+$sqlSelectpression = 'SELECT patmosphérique FROM readings ORDER BY idsonde DESC LIMIT 5';
+$stmtSelectpression = $bdd->prepare($sqlSelectpression); // Correction du nom de la variable
+$stmtSelectpression->execute();
+$pression = $stmtSelectpression->fetchAll(PDO::FETCH_COLUMN);
+
+// Calculer la moyenne de la pression
+$pressionMoyenne = array_sum($pression) / count($pression);
+
 echo '<h2>Moyenne des 5 dernières valeurs :</h2>';
 echo '<p>température : ' . $températureMoyenne . '</p>';
+echo '<p>humidité : ' . $humiditéMoyenne . '</p>';
+echo '<p>pression : ' . $pressionMoyenne . '</p>';
 
 // Transmettre les données au script JavaScript
 echo '<script>';
 echo 'const températureMoyenne = ' . json_encode($températureMoyenne) . ';';
+echo 'const humiditéMoyenne = ' . json_encode($humiditéMoyenne) . ';';
+echo 'const pressionMoyenne = ' . json_encode($pressionMoyenne) . ';';
 echo '</script>';
     }
- 
 ?>
