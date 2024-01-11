@@ -19,7 +19,7 @@
         <nav>
             <img src="image/TooboLogo.png" alt="Logo Mascotte">
             <h1>Station Toobo</h1>
-            <form action="traitement.php" method="post">
+            <form action="getData.php" method="post">
                 <input type="submit" value="Deconnexion" />
             </form>
         </nav>

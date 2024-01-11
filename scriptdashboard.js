@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
             labels: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
             datasets: [{
                 label: 'Température',
-                data: [20],
+                data: [],
                 fill: false,
                 backgroundColor: 'red',
                 tension: 0.1
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function() {
             labels: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
             datasets: [{
                 label: 'Taux Humidité',
-                data: [20, 21, 19, 25, 23, 22, 20],
+                data: [],
                 fill: false,
                 backgroundColor: 'turquoise',
                 tension: 0.1
@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function() {
             labels: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
             datasets: [{
                 label: 'Pression Atmosphérique',
-                data: [20, 21, 19, 25, 23, 22, 20],
+                data: [],
                 fill: false,
                 backgroundColor: 'grey',
                 tension: 0.1
