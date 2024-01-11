@@ -7,7 +7,7 @@
         $host = "localhost";
         $dbname = "IOTMeteo";
         $user = "postgres";
-        $password = "postgres";
+        $password = "Paddy2002";
         
 
         // Connexion à la base de données
@@ -50,7 +50,7 @@
         }
     } elseif ($_SERVER["REQUEST_METHOD"] == "GET") {
         // Récupérer les 5 dernières valeurs de chaque type depuis la table readings
-        $sqlSelectReadings = 'SELECT température, humidité, patmosphérique FROM Readings ORDER BY idreadings DESC LIMIT 5';
+        $sqlSelectReadings = 'SELECT température, humidité, patmosphérique FROM readings ORDER BY idsonde DESC LIMIT 5';
         $stmtSelect = $bdd->prepare($sqlSelectReadings);
         $stmtSelect->execute();
         $readings = $stmtSelect->fetchAll(PDO::FETCH_ASSOC);
@@ -72,7 +72,7 @@
 
         // Transmettre les données au script JavaScript
         echo '<script>';
-        echo 'const readingsData = ' . json_encode($readings) . ';';
+        echo 'const readingsData = ' . json_encode($températureMoyenne) . ';';
         echo '</script>';
     }
  

@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
             labels: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
             datasets: [{
                 label: 'Température',
-                data: [],
+                data: readingsData.map(item => item.température), // Utiliser les données PHP ici
                 fill: false,
                 backgroundColor: 'red',
                 tension: 0.1
@@ -36,6 +36,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
     });
+});
 
     // Graphique de Taux d'humidité
     const lineCanvasHumidité = document.getElementById('lineCanvasHumidité');
@@ -139,6 +140,6 @@ document.addEventListener("DOMContentLoaded", function() {
     // Ajoutez un gestionnaire d'événements pour le basculement
     const toggleButton = document.getElementById('toggleButton');
     toggleButton.addEventListener('click', toggleTimeFormat);
-});
+
 
 let timeFormatIsDaysOfWeek = true;  // Variable pour suivre l'état actuel du format de temps
