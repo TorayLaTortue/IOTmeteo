@@ -67,7 +67,7 @@
 
         // Ajoutez des messages de débogage pour vérifier les données
         echo '<pre>';
-        print_r($readings);
+        print_r($températureMoyenne);
         echo '</pre>';
 
         // Transmettre les données au script JavaScript
