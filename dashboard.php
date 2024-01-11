@@ -17,12 +17,13 @@
         <nav>
             <img src="image/TooboLogo.png" alt="Logo Mascotte">
             <h1>Station Toobo</h1>
-            <form action="traitement.php" method="post">
+            <form action="bdd.php" method="post">
                 <input type="submit" value="Deconnexion" />
             </form>
         </nav>
     </div>
 </header>
+
 
 
 
@@ -37,13 +38,20 @@
     <div class="dashboard">
         <h2>Tableau de bord</h2>
         
-        <canvas id="lineCanvasTemp" aria-label="chart" role="img"></canvas>
-        <canvas id="barCanvasHumidité" aria-label="chart" role="img"></canvas>
-        <canvas id="barCanvasPression" aria-label="chart" role="img"></canvas>
+        <canvas id="lineCanvasTemp" aria-label="chart" role="img" width="200" height="200"></canvas>
+        <canvas id="lineCanvasHumidité" aria-label="chart" role="img" width="200" height="200"></canvas>
+        <canvas id="lineCanvasPression" aria-label="chart" role="img" width="200" height="200"></canvas>
         <!-- <script src ="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js"></script> -->
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
-        <script src="script.js"></script>
+        <script>
+    <?php
+    // Placez ici la section PHP qui récupère les données et génère la déclaration de readingsData
+    // Assurez-vous de bien déclarer readingsData même si aucune donnée n'a été récupérée
+    echo 'const readingsData = ' . (isset($readings) ? json_encode($readings) : '[]') . ';';
+    ?>
+</script>
+<script src="scriptdashboard.js"></script>
     </div>
 </div>
 

@@ -1,86 +1,44 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
 
-$host = "localhost";
-$dbname = "Matching";
-$user = "postgres";
-$password = "Vemer";
+        
+        $host = "localhost";
+        $dbname = "IOTMeteo";
+        $user = "postgres";
+        $password = "Vemer";
+        
 
+        // Connexion à la base de données
+        try{
+        $bdd = new PDO("pgsql:host=$host;port=5432;dbname=$dbname", $user, $password);
+        $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);}
+        catch(PDOException $e){// Vérifier la connexion
+        die("Échec de la connexion à la base de données : " . $e->getMessage());}
 
-try {
-    $bdd = new PDO("pgsql:host=$host;port=5432;dbname=$dbname", $user, $password);
-    $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-
-    $sqlCreateDatabase = "CREATE DATABASE IF NOT EXISTS $dbname";
-    $bdd->exec($sqlCreateDatabase);
-    echo "Database $dbname créée avec succès ou déjà existante.";
-
-    // Sélection de la base de données
-    $bdd->exec("USE $dbname");
     
-    // Creation des 3 tables
-    $sqlCreateUtilisateurTable = '
-    CREATE TABLE IF NOT EXISTS utilisateur (
-        idutilisateur INT PRIMARY KEY,
-        Email VARCHAR(255) UNIQUE NOT NULL,
-        Email VARCHAR(255) UNIQUE NOT NULL,
-        mdp VARCHAR(25),
-        ville VARCHAR(50),
-        date_de_naissance DATE
-    );
-    ';
-
-    $sqlCreateSondeTable = '
-    CREATE TABLE IF NOT EXISTS sonde (
-        idsonde INT PRIMARY KEY,
-        Disponibilité BOOLEAN,
-        adresse_ip VARCHAR(255) UNIQUE,
-        lieu VARCHAR(255)
-    );
-    ';
-
-    $sqlCreateReadingsTable = '
-    CREATE TABLE IF NOT EXISTS readings (
-        idreadings SERIAL PRIMARY KEY,
-        temperature DECIMAL(5,2),
-        humidité DECIMAL(5,2),
-        atmo DECIMAL(5,2),
-        Date_et_heure TIMESTAMP,
-        idsonde INT,
-        FOREIGN KEY (idsonde) REFERENCES sonde(idsonde)
-    );
-    ';
-
-    try {
-        $bdd->exec($sqlCreateUtilisateurTable);
-        $bdd->exec($sqlCreateSondeTable);
-        $bdd->exec($sqlCreateReadingsTable);
-        echo "Tables créées avec succès ou déjà existantes.";
-    } catch (PDOException $e) {
-        echo "Erreur lors de la création des tables : " . $e->getMessage();
-    }
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $temperature = $_POST['temperature'];
         $humidite = $_POST['humidite'];
-        $atmo = $_POST['atmo'];
-        $date_et_heure = $_POST['date_et_heure'];
+        $pression = $_POST['pression'];
+        $date = $_POST['date'];
+        $heure = $_POST['heure'];
         $idsonde = $_POST['idsonde'];
-    
-        if (isset($temperature, $humidite, $atmo, $date_et_heure, $idsonde)) {
+
+        if (isset($temperature, $humidite, $pression, $date, $heure, $idsonde)) {
             // Préparer la requête SQL
-            $sqlInsertReadings = 'INSERT INTO readings (temperature, humidité, atmo, Date_et_heure, idsonde) VALUES (:temperature, :humidite, :atmo, :date_et_heure, :idsonde)';
-    
+            $sqlInsertReadings = 'INSERT INTO Readings (Temperature, Humidite, Pression, Date, Heure, idsonde) VALUES (:temperature, :humidite, :pression, :date, :heure, :idsonde)';
+
             $stmt = $bdd->prepare($sqlInsertReadings);
             $stmt->bindParam(':temperature', $temperature);
             $stmt->bindParam(':humidite', $humidite);
-            $stmt->bindParam(':atmo', $atmo);
-            $stmt->bindParam(':date_et_heure', $date_et_heure);
+            $stmt->bindParam(':pression', $pression);
+            $stmt->bindParam(':date', $date);
+            $stmt->bindParam(':heure', $heure);
             $stmt->bindParam(':idsonde', $idsonde);
-    
+
             try {
                 $stmt->execute();
                 echo "Données insérées avec succès.";
@@ -90,7 +48,32 @@ try {
         } else {
             echo "Certaines données sont manquantes.";
         }
-    } else {
-        echo "Aucune donnée n'a été soumise.";
+    } elseif ($_SERVER["REQUEST_METHOD"] == "GET") {
+        // Récupérer les 5 dernières valeurs de chaque type depuis la table readings
+        $sqlSelectReadings = 'SELECT Temperature, Humidite, Pression FROM Readings ORDER BY idreadings DESC LIMIT 5';
+        $stmtSelect = $bdd->prepare($sqlSelectReadings);
+        $stmtSelect->execute();
+        $readings = $stmtSelect->fetchAll(PDO::FETCH_ASSOC);
+
+        // Afficher la moyenne dans votre page HTML
+        $temperatureMoyenne = array_sum(array_column($readings, 'temperature')) / count($readings);
+        $humiditeMoyenne = array_sum(array_column($readings, 'humidite')) / count($readings);
+        $pressionMoyenne = array_sum(array_column($readings, 'pression')) / count($readings);
+
+        echo '<h2>Moyenne des 5 dernières valeurs :</h2>';
+        echo '<p>Température : ' . $temperatureMoyenne . '</p>';
+        echo '<p>Humidité : ' . $humiditeMoyenne . '</p>';
+        echo '<p>Pression : ' . $pressionMoyenne . '</p>';
+
+        // Ajoutez des messages de débogage pour vérifier les données
+        echo '<pre>';
+        print_r($readings);
+        echo '</pre>';
+
+        // Transmettre les données au script JavaScript
+        echo '<script>';
+        echo 'const readingsData = ' . json_encode($readings) . ';';
+        echo '</script>';
     }
-}
+ 
+?>
