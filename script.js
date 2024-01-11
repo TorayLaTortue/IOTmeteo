@@ -1,28 +1,43 @@
 document.addEventListener("DOMContentLoaded", function() {
     // Graphique de Température
-    const barChartTemp = new Chart(barCanvasTemp, {
-        type: "bar",
+    const lineCanvasTemp = document.getElementById('lineCanvasTemp');
+    const lineChartTemp = new Chart(lineCanvasTemp, {
+        type: "line",
         data: {
             labels: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
             datasets: [{
                 label: 'Température',
                 data: [20, 21, 19, 25, 23, 22, 20],
+                fill: false,
                 backgroundColor: 'red',
-                borderColor: 'rgba(75, 192, 192, 1)',
+                tension: 0.1
             }]
         },
         options: {
-            
-            
+            elements: {
+                point: {
+                    pointBorderColor: "#333"
+                }
+            },
             scales: {
                 y: {
-                    beginAtZero: true
+                    ticks: {
+                        color: "#333"
+                    },
+                    suggestedMin: 0,
+                    suggestedMax: 40
+                },
+                x: {
+                    ticks: {
+                        color: "#333"
+                    }
                 }
             }
         }
     });
 
     // Graphique de Taux d'humidité
+    const barCanvasHumidité = document.getElementById('barCanvasHumidité');
     const barChartHumidité = new Chart(barCanvasHumidité, {
         type: "bar",
         data: {
@@ -36,8 +51,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }]
         },
         options: {
-            
-
             scales: {
                 y: {
                     beginAtZero: true
@@ -47,6 +60,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // Graphique de Pression Atmosphérique
+    const barCanvasPression = document.getElementById('barCanvasPression');
     const barChartPression = new Chart(barCanvasPression, {
         type: "bar",
         data: {
@@ -60,8 +74,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }]
         },
         options: {
-            
-
             scales: {
                 y: {
                     beginAtZero: true
@@ -70,4 +82,3 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
-

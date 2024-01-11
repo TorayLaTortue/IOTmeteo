@@ -67,12 +67,7 @@ nav h1 {
 aside{
     display:list-item;
 }
-#barCanvasTemp,
-#barCanvasHumidité,
-#barCanvasPression {
-    width: 80%; /* Ajustez la largeur selon vos besoins */
-    height: 40vw; /* Utilisez une hauteur basée sur la largeur pour maintenir le rapport d'aspect 2:1 */
-    display: flex;
-    margin: 20px;
-    border: 1px solid #ddd; /* Ajouter une bordure pour une meilleure visibilité */
+#lineCanvasTemp{
+    width: 150px;
+    height: 150px;
 }
