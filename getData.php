@@ -25,11 +25,11 @@
         $patmosphérique = $_POST['patmosphérique'];
         $date = $_POST['date'];
         $heure = $_POST['heure'];
-        $idsonde = $_POST['idsonde'];
+        $idrelevé = $_POST['idrelevé'];
 
-        if (isset($température, $humidité, $patmosphérique, $date, $heure, $idsonde)) {
+        if (isset($température, $humidité, $patmosphérique, $date, $heure, $idrelevé)) {
             // Préparer la requête SQL
-            $sqlInsertReadings = 'INSERT INTO Readings (température, humidité, patmosphérique, Date, Heure, idsonde) VALUES (:température, :humidité, :patmosphérique, :date, :heure, :idsonde)';
+            $sqlInsertReadings = 'INSERT INTO Readings (température, humidité, patmosphérique, Date, Heure, idrelevé) VALUES (:température, :humidité, :patmosphérique, :date, :heure, :idrelevé)';
 
             $stmt = $bdd->prepare($sqlInsertReadings);
             $stmt->bindParam(':température', $température);
@@ -37,7 +37,7 @@
             $stmt->bindParam(':patmosphérique', $patmosphérique);
             $stmt->bindParam(':date', $date);
             $stmt->bindParam(':heure', $heure);
-            $stmt->bindParam(':idsonde', $idsonde);
+            $stmt->bindParam(':idrelevé', $idrelevé);
 
             try {
                 $stmt->execute();
@@ -50,7 +50,7 @@
         }
     } elseif ($_SERVER["REQUEST_METHOD"] == "GET") {
 // Récupérer la moyenne de la température des 5 dernières valeurs depuis la table readings
-$sqlSelectReadings = 'SELECT température FROM readings ORDER BY idsonde DESC LIMIT 5';
+$sqlSelectReadings = 'SELECT température FROM readings ORDER BY idrelevé DESC LIMIT 5';
 $stmtSelect = $bdd->prepare($sqlSelectReadings);
 $stmtSelect->execute();
 $temperatures = $stmtSelect->fetchAll(PDO::FETCH_COLUMN);
@@ -59,7 +59,7 @@ $temperatures = $stmtSelect->fetchAll(PDO::FETCH_COLUMN);
 $températureMoyenne = array_sum($temperatures) / count($temperatures);
 
 // Récupérer la moyenne de l'humidité des 5 dernières valeurs depuis la table readings
-$sqlSelectHumidity = 'SELECT humidité FROM readings ORDER BY idsonde DESC LIMIT 5';
+$sqlSelectHumidity = 'SELECT humidité FROM readings ORDER BY idrelevé DESC LIMIT 5';
 $stmtSelectHumidity = $bdd->prepare($sqlSelectHumidity);
 $stmtSelectHumidity->execute();
 $humidities = $stmtSelectHumidity->fetchAll(PDO::FETCH_COLUMN);
@@ -68,7 +68,7 @@ $humidities = $stmtSelectHumidity->fetchAll(PDO::FETCH_COLUMN);
 $humiditéMoyenne = array_sum($humidities) / count($humidities);
 
 // Récupérer la moyenne de la pression des 5 dernières valeurs depuis la table readings
-$sqlSelectpression = 'SELECT patmosphérique FROM readings ORDER BY idsonde DESC LIMIT 5';
+$sqlSelectpression = 'SELECT patmosphérique FROM readings ORDER BY idrelevé DESC LIMIT 5';
 $stmtSelectpression = $bdd->prepare($sqlSelectpression); // Correction du nom de la variable
 $stmtSelectpression->execute();
 $pression = $stmtSelectpression->fetchAll(PDO::FETCH_COLUMN);

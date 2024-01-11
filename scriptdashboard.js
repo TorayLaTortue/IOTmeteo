@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     // Graphique de Température
     const lineCanvasTemp = document.getElementById('lineCanvasTemp');
     const lineChartTemp = new Chart(lineCanvasTemp, {
@@ -36,7 +36,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
     });
-});
 
     // Graphique de Taux d'humidité
     const lineCanvasHumidité = document.getElementById('lineCanvasHumidité');
@@ -120,13 +119,13 @@ document.addEventListener("DOMContentLoaded", function() {
         const hoursOfDay = Array.from({ length: 24 }, (_, i) => `${i}h`);
 
         // Sélectionnez le graphique de température
-        lineChartTemp.data.labels = timeFormatIsDaysOfWeek ? daysOfWeek : hoursOfDay;
+        lineChartTemp.data.labels = timeFormatIsDaysOfWeek ? hoursOfDay : daysOfWeek;
 
         // Sélectionnez le graphique de taux d'humidité
-        lineChartHumidité.data.labels = timeFormatIsDaysOfWeek ? daysOfWeek : hoursOfDay;
+        lineChartHumidité.data.labels = timeFormatIsDaysOfWeek ? hoursOfDay : daysOfWeek;
 
         // Sélectionnez le graphique de pression atmosphérique
-        lineChartPression.data.labels = timeFormatIsDaysOfWeek ? daysOfWeek : hoursOfDay;
+        lineChartPression.data.labels = timeFormatIsDaysOfWeek ? hoursOfDay : daysOfWeek;
 
         // Mettez à jour les graphiques
         lineChartTemp.update();
@@ -141,5 +140,5 @@ document.addEventListener("DOMContentLoaded", function() {
     const toggleButton = document.getElementById('toggleButton');
     toggleButton.addEventListener('click', toggleTimeFormat);
 
-
-let timeFormatIsDaysOfWeek = true;  // Variable pour suivre l'état actuel du format de temps
+    let timeFormatIsDaysOfWeek = true;  // Variable pour suivre l'état actuel du format de temps
+});
