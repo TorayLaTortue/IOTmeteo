@@ -1,3 +1,4 @@
+<!--http://127.0.0.1/Station%20m%c3%a9t%c3%a9o/IOTmeteo/login.php -->
 <?php
 // Démarrer la session
 session_start();
