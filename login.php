@@ -8,12 +8,12 @@ $dbname = "";
 $user = "";
 $password = "";
 
-try {
-    $bdd = new PDO("pgsql:host=$host;dbname=$dbname", $user, $password);
-    $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Erreur de connexion à la base de données: " . $e->getMessage());
-}
+// try {
+//     $bdd = new PDO("pgsql:host=$host;dbname=$dbname", $user, $password);
+//     $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+// } catch (PDOException $e) {
+//     die("Erreur de connexion à la base de données: " . $e->getMessage());
+// }
 
 $error_message = "";
 
