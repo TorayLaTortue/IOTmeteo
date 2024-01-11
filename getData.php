@@ -49,31 +49,22 @@
             echo "Certaines données sont manquantes.";
         }
     } elseif ($_SERVER["REQUEST_METHOD"] == "GET") {
-        // Récupérer les 5 dernières valeurs de chaque type depuis la table readings
-        $sqlSelectReadings = 'SELECT température, humidité, patmosphérique FROM readings ORDER BY idsonde DESC LIMIT 5';
-        $stmtSelect = $bdd->prepare($sqlSelectReadings);
-        $stmtSelect->execute();
-        $readings = $stmtSelect->fetchAll(PDO::FETCH_ASSOC);
+// Récupérer la moyenne de la température des 5 dernières valeurs depuis la table readings
+$sqlSelectReadings = 'SELECT température FROM readings ORDER BY idsonde DESC LIMIT 5';
+$stmtSelect = $bdd->prepare($sqlSelectReadings);
+$stmtSelect->execute();
+$temperatures = $stmtSelect->fetchAll(PDO::FETCH_COLUMN);
 
-        // Afficher la moyenne dans votre page HTML
-        $températureMoyenne = array_sum(array_column($readings, 'température')) / count($readings);
-        $humiditéMoyenne = array_sum(array_column($readings, 'humidité')) / count($readings);
-        $patmosphériqueMoyenne = array_sum(array_column($readings, 'patmosphérique')) / count($readings);
+// Calculer la moyenne de la température
+$températureMoyenne = array_sum($temperatures) / count($temperatures);
 
-        echo '<h2>Moyenne des 5 dernières valeurs :</h2>';
-        echo '<p>température : ' . $températureMoyenne . '</p>';
-        echo '<p>humidité : ' . $humiditéMoyenne . '</p>';
-        echo '<p>patmosphérique : ' . $patmosphériqueMoyenne . '</p>';
+echo '<h2>Moyenne des 5 dernières valeurs :</h2>';
+echo '<p>température : ' . $températureMoyenne . '</p>';
 
-        // Ajoutez des messages de débogage pour vérifier les données
-        echo '<pre>';
-        print_r($températureMoyenne);
-        echo '</pre>';
-
-        // Transmettre les données au script JavaScript
-        echo '<script>';
-        echo 'const readingsData = ' . json_encode($readings) . ';';
-        echo '</script>';
+// Transmettre les données au script JavaScript
+echo '<script>';
+echo 'const températureMoyenne = ' . json_encode($températureMoyenne) . ';';
+echo '</script>';
     }
  
 ?>
