@@ -9,6 +9,8 @@
 
 
 
+
+
 </head>
 <body class="main-body">
 
@@ -36,10 +38,12 @@
 
     <div class="dashboard">
         <h2>Tableau de bord</h2>
-        
-        <canvas id="lineCanvasTemp" aria-label="chart" role="img" width="200" height="200"></canvas>
-        <canvas id="lineCanvasHumidité" aria-label="chart" role="img" width="200" height="200"></canvas>
-        <canvas id="lineCanvasPression" aria-label="chart" role="img" width="200" height="200"></canvas>
+        <button id="toggleButton">Semaine/24h</button>
+        <div class= "graph">
+        <canvas id="lineCanvasTemp" aria-label="chart" role="img" width="500" height="500"></canvas>
+        <canvas id="lineCanvasHumidité" aria-label="chart" role="img" width="500" height="500"></canvas>
+        <canvas id="lineCanvasPression" aria-label="chart" role="img" width="500" height="500"></canvas>
+        </div>
         <!-- <script src ="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js"></script> -->
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>

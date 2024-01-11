@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
             labels: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
             datasets: [{
                 label: 'Température',
-                data: [20, 21, 19, 25, 23, 22, 20],
+                data: [20],
                 fill: false,
                 backgroundColor: 'red',
                 tension: 0.1
@@ -15,7 +15,6 @@ document.addEventListener("DOMContentLoaded", function() {
         },
         options: {
             responsive: false,
-            
             elements: {
                 point: {
                     pointBorderColor: "#333"
@@ -48,13 +47,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 label: 'Taux Humidité',
                 data: [20, 21, 19, 25, 23, 22, 20],
                 fill: false,
-                backgroundColor: 'red',
+                backgroundColor: 'turquoise',
                 tension: 0.1
             }]
         },
         options: {
             responsive: false,
-            
             elements: {
                 point: {
                     pointBorderColor: "#333"
@@ -66,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         color: "#333"
                     },
                     suggestedMin: 0,
-                    suggestedMax: 40
+                    suggestedMax: 100
                 },
                 x: {
                     ticks: {
@@ -87,13 +85,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 label: 'Pression Atmosphérique',
                 data: [20, 21, 19, 25, 23, 22, 20],
                 fill: false,
-                backgroundColor: 'red',
+                backgroundColor: 'grey',
                 tension: 0.1
             }]
         },
         options: {
             responsive: false,
-            
             elements: {
                 point: {
                     pointBorderColor: "#333"
@@ -105,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         color: "#333"
                     },
                     suggestedMin: 0,
-                    suggestedMax: 40
+                    suggestedMax: 100
                 },
                 x: {
                     ticks: {
@@ -114,4 +111,34 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             }
         }
-    })});
+    });
+
+    // Fonction pour basculer entre les jours de la semaine et une seule journée de 24 heures
+    function toggleTimeFormat() {
+        const daysOfWeek = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+        const hoursOfDay = Array.from({ length: 24 }, (_, i) => `${i}h`);
+
+        // Sélectionnez le graphique de température
+        lineChartTemp.data.labels = timeFormatIsDaysOfWeek ? daysOfWeek : hoursOfDay;
+
+        // Sélectionnez le graphique de taux d'humidité
+        lineChartHumidité.data.labels = timeFormatIsDaysOfWeek ? daysOfWeek : hoursOfDay;
+
+        // Sélectionnez le graphique de pression atmosphérique
+        lineChartPression.data.labels = timeFormatIsDaysOfWeek ? daysOfWeek : hoursOfDay;
+
+        // Mettez à jour les graphiques
+        lineChartTemp.update();
+        lineChartHumidité.update();
+        lineChartPression.update();
+
+        // Inversez l'état
+        timeFormatIsDaysOfWeek = !timeFormatIsDaysOfWeek;
+    }
+
+    // Ajoutez un gestionnaire d'événements pour le basculement
+    const toggleButton = document.getElementById('toggleButton');
+    toggleButton.addEventListener('click', toggleTimeFormat);
+});
+
+let timeFormatIsDaysOfWeek = true;  // Variable pour suivre l'état actuel du format de temps
