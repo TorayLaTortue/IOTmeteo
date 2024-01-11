@@ -1,0 +1,101 @@
+/* Styles généraux */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-image: url('GAPBG.jpg'); /* Corrigez le chemin si nécessaire */
+  background-size: cover; /* Ajuste l'image à la taille de la fenêtre */
+  background-repeat: no-repeat; /* Empêche la répétition de l'image */
+  background-attachment: fixed; /* Fixe l'image de fond pour qu'elle ne défile pas avec la page */
+}
+
+h1, h2 {
+  text-align: center;
+  color: #333;
+}
+
+.container {
+  width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.5); /* Utilisez une valeur alpha (0.5) pour la transparence */
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 50px;
+}
+
+/* Styles du formulaire de connexion */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+input[type="text"], input[type="password"], input[type="email"] {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+button {
+  padding: 10px;
+  background-color: #000000;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #ffffff;
+  color: black;
+}
+
+.container .LogoToobo {
+  width: 50%; /* Ajustez la largeur à votre convenance */
+  height: auto; /* Gardez la hauteur en auto pour conserver le ratio d'aspect */
+  display: block; /* Assure que l'image est correctement positionnée */
+  margin: 0 auto; /* Centre l'image dans le conteneur */
+}
+
+/* Styles des liens d'inscription */
+.signup-link {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Styles du modal d'inscription */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  border-radius: 8px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
