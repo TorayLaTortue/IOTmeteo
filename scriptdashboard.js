@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
             labels: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
             datasets: [{
                 label: 'Température',
-                data: readingsData.map(item => item.température), // Utiliser les données PHP ici
+                data: readingsData.map(item => item.température),
                 fill: false,
                 backgroundColor: 'red',
                 tension: 0.1

@@ -72,7 +72,7 @@
 
         // Transmettre les données au script JavaScript
         echo '<script>';
-        echo 'const readingsData = ' . json_encode($températureMoyenne) . ';';
+        echo 'const readingsData = ' . json_encode($readings) . ';';
         echo '</script>';
     }
  
