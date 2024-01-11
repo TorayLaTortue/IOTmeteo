@@ -69,19 +69,18 @@ try {
         $atmo = $_POST['atmo'];
         $date_et_heure = $_POST['date_et_heure'];
         $idsonde = $_POST['idsonde'];
-
-
+    
         if (isset($temperature, $humidite, $atmo, $date_et_heure, $idsonde)) {
             // Préparer la requête SQL
-            $sqlInsertReadings = 'INSERT INTO "readings" ("temperature", "humidité", "atmo", "Date_et_heure", "idsonde") VALUES (:temperature, :humidite, :atmo, :date_et_heure, :idsonde)';
-
+            $sqlInsertReadings = 'INSERT INTO readings (temperature, humidité, atmo, Date_et_heure, idsonde) VALUES (:temperature, :humidite, :atmo, :date_et_heure, :idsonde)';
+    
             $stmt = $bdd->prepare($sqlInsertReadings);
             $stmt->bindParam(':temperature', $temperature);
             $stmt->bindParam(':humidite', $humidite);
             $stmt->bindParam(':atmo', $atmo);
             $stmt->bindParam(':date_et_heure', $date_et_heure);
             $stmt->bindParam(':idsonde', $idsonde);
-
+    
             try {
                 $stmt->execute();
                 echo "Données insérées avec succès.";
@@ -94,6 +93,4 @@ try {
     } else {
         echo "Aucune donnée n'a été soumise.";
     }
-} catch (PDOException $e) { // Vérifier la connexion
-    die("Échec de la connexion à la base de données : " . $e->getMessage());
 }
