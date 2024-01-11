@@ -37,9 +37,9 @@
     <div class="dashboard">
         <h2>Tableau de bord</h2>
         
-        <canvas id="lineCanvasTemp" aria-label="chart" role="img"></canvas>
-        <canvas id="barCanvasHumidité" aria-label="chart" role="img"></canvas>
-        <canvas id="barCanvasPression" aria-label="chart" role="img"></canvas>
+        <canvas id="lineCanvasTemp" aria-label="chart" role="img" width="200" height="200"></canvas>
+        <canvas id="lineCanvasHumidité" aria-label="chart" role="img" width="200" height="200"></canvas>
+        <canvas id="lineCanvasPression" aria-label="chart" role="img" width="200" height="200"></canvas>
         <!-- <script src ="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js"></script> -->
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>

@@ -33,6 +33,7 @@ nav img {
 
 nav h1 {
     margin: 0;
+    font-size: 50px;
 }
 
 /* Styles pour la colonne à gauche */
@@ -67,7 +68,4 @@ nav h1 {
 aside{
     display:list-item;
 }
-#lineCanvasTemp{
-    width: 150px;
-    height: 150px;
-}
+
