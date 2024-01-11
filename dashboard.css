@@ -1,0 +1,101 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    background-color: lightgray;
+}
+
+.site-header {
+    background-color: rgba(255, 183, 2, 1);
+    padding: 10px 0;
+    width: 100%;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 20px;
+}
+
+body {
+    display: flex;
+    margin: 8px;
+    flex-wrap: wrap;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+nav img {
+    width: 12%;
+}
+
+nav h1 {
+    border-style: solid;
+    border-color: #333;
+    border-radius: 10px;
+    margin: 1%;
+    font-size: 600%;
+    background: url('image/cielsimpson.png') center center no-repeat;
+    background-size: cover; /* Utilisation de 'cover' au lieu de '100%' pour ajuster la taille */
+    border-radius: 40%;
+    padding: 20px; /* Ajout de padding pour améliorer l'apparence */
+    color:purple; /* Ajout de la couleur du texte pour assurer la lisibilité */
+    text-align: center; /* Centrage du texte */
+}
+
+
+.left-column {
+    background-color: #f1f1f1;
+    padding: 20px;
+    width: 200px;
+    box-shadow: 2px 0 5px #888;
+    height: 100%;
+}
+
+.left-column button {
+    display: flex;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.content-body {
+    display: flex;
+    width: 100%;
+}
+
+.dashboard {
+    display: flex;
+    flex-direction: column; /* Aligne les éléments en colonne */
+    width: 100%; /* La dashboard prend 100% de la largeur de son conteneur */
+    margin: 20px;
+    align-items: center;
+}
+.dashboard h2 {
+    text-align: center; /* Centre le texte */
+    margin-bottom: 20px; /* Ajoute un espacement en bas du titre */
+    font-size: 400%; /* Ajuste la taille de la police */
+    color: #333; /* Couleur du texte */
+}
+
+.graph{
+    width: 77%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+
+#lineCanvasPression,
+#lineCanvasHumidité,
+#lineCanvasTemp{
+    background-color: white;
+    border-style: solid;
+    border-color: black;
+    border-radius: 20px;
+    
+}
