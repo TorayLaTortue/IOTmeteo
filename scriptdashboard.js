@@ -1,17 +1,22 @@
+
 document.addEventListener("DOMContentLoaded", function () {
     // Graphique de Température
-    const lineCanvasTemp = document.getElementById('lineCanvasTemp');
-    const lineChartTemp = new Chart(lineCanvasTemp, {
-        type: "line",
+    const ctxTemp = document.getElementById('lineCanvasTemp').getContext('2d');
+    const lineChartTemp = createLineChart(ctxTemp, labels, datasetsTemperature[0]);
+    const ctxHumidité = document.getElementById('lineCanvasHumidité').getContext('2d');
+    const lineChartHumidité = createLineChart(ctxHumidité, labels, datasetsHumidite[0]);
+    const ctxPression = document.getElementById('lineCanvasPression').getContext('2d');
+    const lineChartPression = createLineChart(ctxPression, labels, datasetsPression[0]);
+
+});
+
+
+function createLineChart(ctx, labels, dataset) {
+    return new Chart(ctx, {
+        type: 'line',
         data: {
-            labels: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
-            datasets: [{
-                label: 'Température',
-                data: [températureMoyenne],
-                fill: false,
-                backgroundColor: 'red',
-                tension: 0.1
-            }]
+            labels: labels,
+            datasets: [dataset]
         },
         options: {
             responsive: false,
@@ -36,82 +41,10 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     });
+}
 
-    // Graphique de Taux d'humidité
-    const lineCanvasHumidité = document.getElementById('lineCanvasHumidité');
-    const lineChartHumidité = new Chart(lineCanvasHumidité, {
-        type: "line",
-        data: {
-            labels: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
-            datasets: [{
-                label: 'Taux Humidité',
-                data: [humiditéMoyenne],
-                fill: false,
-                backgroundColor: 'turquoise',
-                tension: 0.1
-            }]
-        },
-        options: {
-            responsive: false,
-            elements: {
-                point: {
-                    pointBorderColor: "#333"
-                }
-            },
-            scales: {
-                y: {
-                    ticks: {
-                        color: "#333"
-                    },
-                    suggestedMin: 0,
-                    suggestedMax: 100
-                },
-                x: {
-                    ticks: {
-                        color: "#333"
-                    }
-                }
-            }
-        }
-    });
-//
-    // Graphique de Pression Atmosphérique
-    const lineCanvasPression = document.getElementById('lineCanvasPression');
-    const lineChartPression = new Chart(lineCanvasPression, {
-        type: "line",
-        data: {
-            labels: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
-            datasets: [{
-                label: 'Pression Atmosphérique',
-                data: [pressionMoyenne],
-                fill: false,
-                backgroundColor: 'grey',
-                tension: 0.1
-            }]
-        },
-        options: {
-            responsive: false,
-            elements: {
-                point: {
-                    pointBorderColor: "#333"
-                }
-            },
-            scales: {
-                y: {
-                    ticks: {
-                        color: "#333"
-                    },
-                    suggestedMin: 0,
-                    suggestedMax: 100
-                },
-                x: {
-                    ticks: {
-                        color: "#333"
-                    }
-                }
-            }
-        }
-    });
+
+    
 
     // Fonction pour basculer entre les jours de la semaine et une seule journée de 24 heures
     function toggleTimeFormat() {
@@ -141,4 +74,4 @@ document.addEventListener("DOMContentLoaded", function () {
     toggleButton.addEventListener('click', toggleTimeFormat);
 
     let timeFormatIsDaysOfWeek = true;  // Variable pour suivre l'état actuel du format de temps
-});
+
