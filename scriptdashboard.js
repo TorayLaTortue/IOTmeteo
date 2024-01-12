@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     });
-
+//
     // Graphique de Pression Atmosphérique
     const lineCanvasPression = document.getElementById('lineCanvasPression');
     const lineChartPression = new Chart(lineCanvasPression, {
