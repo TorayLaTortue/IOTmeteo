@@ -48,21 +48,22 @@ try {
 
         foreach ($valuesByDay as $value) {
             $dayOfWeek = $value['day_of_week'];
-            $températureMoyenne = $value['températureMoyenne'];
-            $humiditéMoyenne = $value['humiditéMoyenne'];
-            $pressionMoyenne = $value['pressionMoyenne'];
-
+            $températureMoyenne = $value['températuremoyenne'];
+            $humiditéMoyenne = $value['humiditémoyenne'];
+            $pressionMoyenne = $value['pressionmoyenne'];
+        
             echo '<h3>Jour ' . $dayOfWeek . ' :</h3>';
             echo '<p>température : ' . $températureMoyenne . '</p>';
             echo '<p>humidité : ' . $humiditéMoyenne . '</p>';
             echo '<p>pression : ' . $pressionMoyenne . '</p>';
-
+        
             echo '<script>';
             echo 'const températureMoyenne' . $dayOfWeek . ' = ' . json_encode($températureMoyenne) . ';';
             echo 'const humiditéMoyenne' . $dayOfWeek . ' = ' . json_encode($humiditéMoyenne) . ';';
             echo 'const pressionMoyenne' . $dayOfWeek . ' = ' . json_encode($pressionMoyenne) . ';';
             echo '</script>';
         }
+        
     } else {
         echo "Aucune valeur trouvée pour la semaine en cours.";
     }

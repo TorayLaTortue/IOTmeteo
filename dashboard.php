@@ -20,9 +20,8 @@
         <nav>
             <img src="image/TooboLogo.png" alt="Logo Mascotte">
             <h1>Station Toobo</h1>
-            <form action="getData.php" method="post">
-                <input type="submit" value="Deconnexion" />
-            </form>
+            <!-- Ajoutez le lien de déconnexion ici -->
+            <a href="logout.php">Deconnexion</a>
         </nav>
     </div>
 </header>
