@@ -4,9 +4,9 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 $host = "localhost";
-$dbname = "IOTMeteo";
-$user = "postgres";
-$password = "Paddy2002";
+$dbname = "iotmeteo";
+$user = "damien";
+$password = "damien";
 
 // Connexion à la base de données
 try {
