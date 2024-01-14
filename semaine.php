@@ -63,12 +63,13 @@ try {
             );
         }
 
-// Encodez le tableau en JSON
-$moyennesParJourJson = json_encode($moyennesParJour);
+        // Encodez le tableau en JSON
+        $moyennesParJourJson = json_encode($moyennesParJour);
 
-// Imprimez le script JavaScript
+        // Imprimez le script JavaScript
+        var_dump($moyennesParJour);
 echo '<script>';
-echo 'const moyennesParJour = ' . $moyennesParJourJson . ';';
+echo 'const moyennesParJour = ' . json_encode($moyennesParJour) . ';';
 echo '</script>';
 
     } else {
