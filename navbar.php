@@ -11,9 +11,9 @@
 
     <header class="bg-orange text-black d-flex py-4">
         <div class="container-fluid d-flex justify-content-between align-items-center">
-          <img src="image/TooboLogo.png" alt="Logo Mascotte" style="max-height: 150px;">
-          <h1 class="ml-0 mb-0 text-black p-4 rounded-pill" style="background-image: url('image/cielsimpson.png'); background-size: cover;">Station Toobo</h1>
-          <a class="btn btn-light" href="logout.php">Déconnexion</a>
+          <img src="image/TooboLogo.png" alt="Logo Mascotte" style="max-height: 150px; border-radius: 50%;">
+          <h1 class="ml-0 mb-0 text-purple p-4 rounded-pill display-1 fw-bold" style="background-image: url('image/cielsimpson.png'); background-size: cover;">Station Toobo</h1>
+          <a class="btn btn-dark bg-danger fw-bold" href="logout.php">Déconnexion</a>
         </div>
     </header>
 

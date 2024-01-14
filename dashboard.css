@@ -9,3 +9,11 @@
 .bg-black{
     background-color: black;
 }
+
+.text-purple {
+    color: blueviolet;
+  }
+
+.custom-padding-garph{
+    padding: 10%;
+}

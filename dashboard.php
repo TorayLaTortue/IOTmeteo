@@ -17,49 +17,30 @@
 
 <body class="main-body">
 
+<div class="container-fluid d-flex">
+  <nav class="navbar flex-column navbar-expand-md navbar-light" style="background-color: #e3f2fd; width: 20%; min-height: 100vh; padding-top: 20px;">
+  <button class="mb-3 btn btn-primary btn-lg bg-info" type="button" style= "background-size: cover;" value= "">Sonde :</button>
 
-<nav class="navbar flex-column navbar-expand-md navbar-light" style= "background-color: #e3f2fd; width: 9%; height: 100vh;">
-  <!-- Brand -->
-  <a class="navbar-brand" href="#">Sonde</a>
-
-  <!-- Bouton de basculement pour les petits écrans -->
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <!-- Contenu de la barre de navigation -->
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav flex-column">
-      <!-- Boutons -->
-      <li class="nav-item mb-3">
-        <a class="nav-link btn btn-primary bg-warning" href="#">Bouton 1</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link btn btn-secondary bg-warning" href="#">Bouton 2</a>
-      </li>
-    </ul>
-  </div>
-</nav>
-
-
-<div class="container mt-3">
-    <div class="row ">
-
-        <div class="col-lg-9">
-            <div class="dashboard">
-                <h2 class="mt-3">Tableau de bord</h2>
-                <button id="toggleButton" class="btn btn-primary">Semaine/24h</button>
-                <div class="graph mt-3">
-                    <canvas id="lineCanvasTemp" aria-label="chart" role="img" width="500" height="500"></canvas>
-                    <canvas id="lineCanvasHumidité" aria-label="chart" role="img" width="500" height="500"></canvas>
-                    <canvas id="lineCanvasPression" aria-label="chart" role="img" width="500" height="500"></canvas>
-                </div>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
-                <script src="scriptdashboard.js"></script>
-            </div>
-        </div>
-    </div>
+    <div class="d-grid gap-2 mx-auto">
+  <button class="btn btn-primary" type="button">Sonde 1</button>
+  <button class="btn btn-primary" type="button">Sonde 2</button>
 </div>
+  </nav>
+  <div class="container-fluid d-flex mt-3">
+    <div class="dashboard text-center">
+      <h2 class="mt-3">Tableau de bord</h2>
+      <button id="toggleButton" class="btn btn-primary">Semaine/24h</button>
+      <div class="custom-padding-garph graph mt-3 justify-content-center d-flex flex-wrap">
+        <canvas class="mt-5" id="lineCanvasTemp" aria-label="chart" role="img" width="500" height="500"></canvas>
+        <canvas class="mt-5" id="lineCanvasHumidité" aria-label="chart" role="img" width="500" height="500"></canvas>
+        <canvas class="mt-5" id="lineCanvasPression" aria-label="chart" role="img" width="500" height="500"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+          <script src="scriptdashboard.js"></script>
 
 <!-- Include Bootstrap JS and Popper.js -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
