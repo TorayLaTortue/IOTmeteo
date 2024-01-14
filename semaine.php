@@ -46,24 +46,32 @@ try {
     if (!empty($valuesByDay)) {
         echo '<h2>Moyennes par jour pour la semaine en cours :</h2>';
 
+        // Initialisez le tableau des moyennes par jour
+        $moyennesParJour = array();
+
         foreach ($valuesByDay as $value) {
             $dayOfWeek = $value['day_of_week'];
             $températureMoyenne = $value['températuremoyenne'];
             $humiditéMoyenne = $value['humiditémoyenne'];
             $pressionMoyenne = $value['pressionmoyenne'];
-        
-            echo '<h3>Jour ' . $dayOfWeek . ' :</h3>';
-            echo '<p>température : ' . $températureMoyenne . '</p>';
-            echo '<p>humidité : ' . $humiditéMoyenne . '</p>';
-            echo '<p>pression : ' . $pressionMoyenne . '</p>';
-        
-            echo '<script>';
-            echo 'const températureMoyenne' . $dayOfWeek . ' = ' . json_encode($températureMoyenne) . ';';
-            echo 'const humiditéMoyenne' . $dayOfWeek . ' = ' . json_encode($humiditéMoyenne) . ';';
-            echo 'const pressionMoyenne' . $dayOfWeek . ' = ' . json_encode($pressionMoyenne) . ';';
-            echo '</script>';
+
+            // Stockez les moyennes dans le tableau
+            $moyennesParJour[$dayOfWeek] = array(
+                'température' => $températureMoyenne,
+                'humidité' => $humiditéMoyenne,
+                'pression' => $pressionMoyenne
+            );
         }
-        
+
+        // Encodez le tableau en JSON
+        $moyennesParJourJson = json_encode($moyennesParJour);
+
+        // Imprimez le script JavaScript
+        var_dump($moyennesParJour);
+echo '<script>';
+echo 'const moyennesParJour = ' . json_encode($moyennesParJour) . ';';
+echo '</script>';
+
     } else {
         echo "Aucune valeur trouvée pour la semaine en cours.";
     }
