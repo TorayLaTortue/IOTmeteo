@@ -5,9 +5,11 @@
 
         
         $host = "localhost";
-        $dbname = "iotmeteo";
-        $user = "damien";
-        $password = "damiens";
+        // $dbname = "iotmeteo";
+        $dbname = "IOTMeteo";
+        $user = "postgres";
+        // $password = "damiens";
+        $password = "Paddy2002";
         
 
         // Connexion à la base de données
