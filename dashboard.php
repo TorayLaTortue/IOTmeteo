@@ -18,26 +18,31 @@
 <body class="main-body">
 
 <div class="container-fluid d-flex">
-  <nav class="navbar flex-column navbar-expand-md navbar-light" style="background-color: #e3f2fd; width: 20%; min-height: 100vh; padding-top: 20px;">
-  <button class="mb-3 btn btn-primary btn-lg bg-info" type="button" style= "background-size: cover;" value= "">Sonde :</button>
+  <!-- Barre de navigation latéral -->
+  <nav class="navbar flex-column navbar-expand-md navbar-light bg-light" style="width: 20%; min-height: 100vh; padding-top: 20px;">
+    <button class="mb-3 btn btn-primary btn-lg bg-info" type="button">Sonde :</button>
 
     <div class="d-grid gap-2 mx-auto">
-  <button class="btn btn-primary" type="button">Sonde 1</button>
-  <button class="btn btn-primary" type="button">Sonde 2</button>
-</div>
+      <button class="btn btn-primary" type="button">Sonde 1</button>
+      <button class="btn btn-primary" type="button">Sonde 2</button>
+    </div>
   </nav>
+
+  <!-- Contenu principal -->
   <div class="container-fluid d-flex mt-3">
     <div class="dashboard text-center">
       <h2 class="mt-3">Tableau de bord</h2>
       <button id="toggleButton" class="btn btn-primary">Semaine/24h</button>
-      <div class="custom-padding-garph graph mt-3 justify-content-center d-flex flex-wrap">
-        <canvas class="mt-5" id="lineCanvasTemp" aria-label="chart" role="img" width="500" height="500"></canvas>
-        <canvas class="mt-5" id="lineCanvasHumidité" aria-label="chart" role="img" width="500" height="500"></canvas>
-        <canvas class="mt-5" id="lineCanvasPression" aria-label="chart" role="img" width="500" height="500"></canvas>
+
+      <div class="custom-padding-graph mt-3 justify-content-center d-flex flex-wrap">
+        <canvas class="mt-5 bg-warning rounded-4 border border-3 border-secondary" id="lineCanvasTemp" aria-label="chart" role="img" width="500" height="500"></canvas>
+        <canvas class="mt-5 bg-warning rounded-4 border border-3 border-secondary" id="lineCanvasHumidité" aria-label="chart" role="img" width="500" height="500"></canvas>
+        <canvas class="mt-5 bg-warning rounded-4 border border-3 border-secondary" id="lineCanvasPression" aria-label="chart" role="img" width="500" height="500"></canvas>
       </div>
     </div>
   </div>
 </div>
+
 
           <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
           <script src="scriptdashboard.js"></script>

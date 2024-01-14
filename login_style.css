@@ -3,10 +3,14 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-image: url('GAPBG.jpg'); /* Corrigez le chemin si nécessaire */
+  background-image: url('image/Background.png'); /* Corrigez le chemin si nécessaire */
   background-size: cover; /* Ajuste l'image à la taille de la fenêtre */
   background-repeat: no-repeat; /* Empêche la répétition de l'image */
   background-attachment: fixed; /* Fixe l'image de fond pour qu'elle ne défile pas avec la page */
+}
+
+h1{
+  font-size: 500%;
 }
 
 h1, h2 {
@@ -56,6 +60,7 @@ button:hover {
   height: auto; /* Gardez la hauteur en auto pour conserver le ratio d'aspect */
   display: block; /* Assure que l'image est correctement positionnée */
   margin: 0 auto; /* Centre l'image dans le conteneur */
+  border-radius: 50%;
 }
 
 /* Styles des liens d'inscription */
