@@ -1,3 +1,5 @@
+<!-- http://localhost/Station%20m%c3%a9t%c3%a9o/IOTmeteo/dashboard.php -->
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -11,8 +13,33 @@
     <?php include 'navbar.php'; ?>
 
 </head>
+
+
 <body class="main-body">
 
+
+<nav class="navbar flex-column navbar-expand-md navbar-light" style= "background-color: #e3f2fd; width: 9%; height: 100vh;">
+  <!-- Brand -->
+  <a class="navbar-brand" href="#">Sonde</a>
+
+  <!-- Bouton de basculement pour les petits écrans -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Contenu de la barre de navigation -->
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav flex-column">
+      <!-- Boutons -->
+      <li class="nav-item mb-3">
+        <a class="nav-link btn btn-primary bg-warning" href="#">Bouton 1</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link btn btn-secondary bg-warning" href="#">Bouton 2</a>
+      </li>
+    </ul>
+  </div>
+</nav>
 
 
 <div class="container mt-3">
@@ -27,7 +54,6 @@
                     <canvas id="lineCanvasHumidité" aria-label="chart" role="img" width="500" height="500"></canvas>
                     <canvas id="lineCanvasPression" aria-label="chart" role="img" width="500" height="500"></canvas>
                 </div>
-                <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js"></script> -->
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
                 <script src="scriptdashboard.js"></script>
             </div>
