@@ -16,7 +16,7 @@ function createLineChart(ctx, labels, dataset) {
     return new Chart(ctx, {
         type: 'line',
         data: {
-            labels: labels,  // Utilisez les étiquettes réelles
+            labels: labels,  // Utilisez les valeurs réelles
             datasets: [dataset]
         },
         options: {
@@ -51,13 +51,13 @@ function toggleTimeFormat() {
     const hoursOfDay = Array.from({ length: labels }, (_, i) => `${i}h`);
 
     // Sélectionnez le graphique de température
-    lineChartTemp.data.labels = timeFormatIsDaysOfWeek ? hoursOfDay : daysOfWeek;
+    lineChartTemp.data.labels = timeFormatIsDaysOfWeek ? daysOfWeek : hoursOfDay;
 
     // Sélectionnez le graphique de taux d'humidité
-    lineChartHumidité.data.labels = timeFormatIsDaysOfWeek ? hoursOfDay : daysOfWeek;
+    lineChartHumidité.data.labels = timeFormatIsDaysOfWeek ? daysOfWeek : hoursOfDay;
 
     // Sélectionnez le graphique de pression atmosphérique
-    lineChartPression.data.labels = timeFormatIsDaysOfWeek ? hoursOfDay : daysOfWeek;
+    lineChartPression.data.labels = timeFormatIsDaysOfWeek ? daysOfWeek : hoursOfDay;
 
     // Mettez à jour les graphiques
     lineChartTemp.update();
@@ -67,6 +67,8 @@ function toggleTimeFormat() {
     // Inversez l'état
     timeFormatIsDaysOfWeek = !timeFormatIsDaysOfWeek;
 }
+
+
 
 const toggleButton = document.getElementById('toggleButton');
 toggleButton.addEventListener('click', toggleTimeFormat);
