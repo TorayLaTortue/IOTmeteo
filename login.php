@@ -3,9 +3,9 @@
 session_start();
 
 $host = "localhost";
-$dbname = "IOTMeteo";
-$user = "postgres";
-$password = "Paddy2002";
+$dbname = "iotmeteo";
+$user = "damien";
+$password = "damien";
 
 try {
     $bdd = new PDO("pgsql:host=$host;dbname=$dbname", $user, $password);
