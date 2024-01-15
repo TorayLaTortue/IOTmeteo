@@ -18,7 +18,7 @@
 
     if ($_SERVER["REQUEST_METHOD"] == "GET") {
         // Sélectionner les données pour la semaine en cours
-        $sqlSelectData = 'SELECT température, humidité, patmosphérique, DATE_PART(\'dow\', "date") AS day_of_week FROM readings WHERE "date" >= :startOfWeek AND "date" <= :endOfWeek ORDER BY "date", heure';
+        $sqlSelectData = 'SELECT température, humidité, patmosphérique, DATE_PART(\'dow\', "date") AS day_of_week, "date" FROM readings WHERE "date" >= :startOfWeek AND "date" <= :endOfWeek ORDER BY "date", heure';
         
         $startOfWeek = date('Y-m-d', strtotime('last Monday'));
         $endOfWeek = date('Y-m-d', strtotime('next Sunday'));
@@ -33,15 +33,21 @@
         $dailyAveragesTemperature = [];
         $dailyAveragesHumidite = [];
         $dailyAveragesPression = [];
+        $dates = [];
 
         // Pour chaque jour de la semaine, récupérer les données et calculer la moyenne
-        for ($day = 0; $day < 7; $day++) {
+        foreach ($data as $entry) {
+            // Récupérer le jour de la semaine et la date
+            $day = intval($entry['day_of_week']);
+            $date = $entry['date'];
+
             // Filtrer les données pour le jour spécifique
-            $filteredData = array_filter($data, function($entry) use ($day) {
-                return intval($entry['day_of_week']) == $day
-                    && is_numeric($entry['température'])
-                    && is_numeric($entry['humidité'])
-                    && is_numeric($entry['patmosphérique']);
+            $filteredData = array_filter($data, function($e) use ($day, $date) {
+                return intval($e['day_of_week']) == $day
+                    && $e['date'] == $date
+                    && is_numeric($e['température'])
+                    && is_numeric($e['humidité'])
+                    && is_numeric($e['patmosphérique']);
             });
 
             // Calculer les moyennes
@@ -49,10 +55,11 @@
             $humiditeMoyenne = count($filteredData) > 0 ? array_sum(array_column($filteredData, 'humidité')) / count($filteredData) : 0;
             $pressionMoyenne = count($filteredData) > 0 ? array_sum(array_column($filteredData, 'patmosphérique')) / count($filteredData) : 0;
 
-            // Ajouter les moyennes au tableau avec le jour de la semaine correspondant
-            $dailyAveragesTemperature[$day] = $temperatureMoyenne;
-            $dailyAveragesHumidite[$day] = $humiditeMoyenne;
-            $dailyAveragesPression[$day] = $pressionMoyenne;
+            // Ajouter les moyennes au tableau avec la date correspondante
+            $dailyAveragesTemperature[$date] = $temperatureMoyenne;
+            $dailyAveragesHumidite[$date] = $humiditeMoyenne;
+            $dailyAveragesPression[$date] = $pressionMoyenne;
+           
         }
 
         // Encoder les tableaux en JSON
@@ -65,6 +72,7 @@
 
         // Retourner les données JSON
         echo json_encode([
+            'dates' => $dates,
             'temperatureWeek' => $jsonDailyAveragesTemperature,
             'humiditeWeek' => $jsonDailyAveragesHumidite,
             'pressionWeek' => $jsonDailyAveragesPression,

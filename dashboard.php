@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="dashboard.css">
     <?php include ("getData.php")?>
-    <?php include ("semaine.php")?>
     <?php include ("navbar.php")?>
 
 </head>
@@ -33,7 +32,6 @@
   <div class="container-fluid d-flex mt-3">
     <div class="dashboard text-center">
       <h2 class="mt-3">Tableau de bord</h2>
-      <button id="toggleButton" class="btn btn-primary">Semaine/24h</button>
 
       <div class="custom-padding-graph mt-3 justify-content-evenly d-flex flex-wrap">
         <canvas class="mt-5 bg-grey rounded-4 border border-3 border-black" id="lineCanvasTemp" aria-label="chart" role="img" width="400" height="400"></canvas>

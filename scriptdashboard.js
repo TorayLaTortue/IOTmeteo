@@ -27,8 +27,8 @@ document.addEventListener("DOMContentLoaded", function () {
      fetch('semaine.php')
      .then(response => response.json())
      .then(data => {
-         const labelsWeek = ["lundi","mardi","mercredi","jeudi","vendredi","samedi","dimanche"];
-
+         const labelsWeek = data.dates;
+ 
          // Graphique de la température de la semaine
          lineChartTempWeek = createLineChartWeek(ctxTempWeek, labelsWeek, [{
              label: "Température",
@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
              backgroundColor: "red",
              tension: 0.1
          }]);
-
+ 
          // Graphique d'Humidité de la semaine
          lineChartHumiditéWeek = createLineChartWeek(ctxHumiditéWeek, labelsWeek, [{
              label: "Humidité",
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
              backgroundColor: "turquoise",
              tension: 0.1
          }]); 
-
+ 
          // Graphique de Pression de la semaine
          lineChartPressionWeek = createLineChartWeek(ctxPressionWeek, labelsWeek, [{
              label: "Pression",
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
          }]); 
      })
      .catch(error => console.error('Erreur lors de la récupération des données:', error));
-
+ 
 
      function createLineChart(ctx, labels, dataset) {
         return new Chart(ctx, {
@@ -122,29 +122,59 @@ function createLineChartWeek(ctx, labels, dataset) {
         }
     });
 }
+const dataByDate = {};  // Utilisez un tableau associatif pour stocker les données filtrées par date
 
-// Fonction pour basculer entre les jours de la semaine et une seule journée de 24 heures
-function toggleTimeFormat() {
-    const daysOfWeek = [];
-    const hoursOfDay = Array.from({ length: labels.length }, (_, i) => `${i}h`);
+// Pour chaque jour de la semaine, récupérer les données et calculer la moyenne
+data.forEach(entry => {
+    const date = entry.date;
 
-    // Sélectionnez le graphique de température
-    lineChartTemp.data.labels = timeFormatIsDaysOfWeek ? daysOfWeek : hoursOfDay;
+    // Si la date n'est pas encore présente dans le tableau associatif, ajoutez-la
+    if (!dataByDate[date]) {
+        dataByDate[date] = [];
+    }
 
-    // Sélectionnez le graphique de taux d'humidité
-    lineChartHumidité.data.labels = timeFormatIsDaysOfWeek ? daysOfWeek : hoursOfDay;
+    // Filtrer les données pour le jour spécifique et ajouter à la date correspondante dans le tableau associatif
+    const filteredData = dataByDate[date].filter(e =>
+        isNumeric(e.température) && isNumeric(e.humidité) && isNumeric(e.patmosphérique)
+    );
 
-    // Sélectionnez le graphique de pression atmosphérique
-    lineChartPression.data.labels = timeFormatIsDaysOfWeek ? daysOfWeek : hoursOfDay;
+    dataByDate[date].push(entry);
+});
 
-    // Mettez à jour les graphiques
-    lineChartTemp.update();
-    lineChartHumidité.update();
-    lineChartPression.update();
-    updateWeekCharts();  // Appel de la nouvelle fonction pour mettre à jour les graphiques de la semaine
-    // Inversez l'état
-    timeFormatIsDaysOfWeek = !timeFormatIsDaysOfWeek;
-}
+// Parcourir le tableau associatif pour calculer les moyennes par date
+const dates = Object.keys(dataByDate);
+const temperatureWeek = [];
+const humiditeWeek = [];
+const pressionWeek = [];
+
+dates.forEach(date => {
+    const filteredData = dataByDate[date];
+
+    const temperatureMoyenne = filteredData.length > 0 ?
+        filteredData.reduce((sum, entry) => sum + parseFloat(entry.température), 0) / filteredData.length : 0;
+
+    const humiditeMoyenne = filteredData.length > 0 ?
+        filteredData.reduce((sum, entry) => sum + parseFloat(entry.humidité), 0) / filteredData.length : 0;
+
+    const pressionMoyenne = filteredData.length > 0 ?
+        filteredData.reduce((sum, entry) => sum + parseFloat(entry.patmosphérique), 0) / filteredData.length : 0;
+
+    temperatureWeek.push(temperatureMoyenne);
+    humiditeWeek.push(humiditeMoyenne);
+    pressionWeek.push(pressionMoyenne);
+});
+
+// Mettre à jour les graphiques de la semaine avec les données filtrées
+lineChartTempWeek.data.labels = dates;
+lineChartTempWeek.data.datasets[0].data = temperatureWeek;
+
+lineChartHumiditéWeek.data.labels = dates;
+lineChartHumiditéWeek.data.datasets[0].data = humiditeWeek;
+
+lineChartPressionWeek.data.labels = dates;
+lineChartPressionWeek.data.datasets[0].data = pressionWeek;
+
+updateWeekCharts();  // Mettez à jour les graphiques de la semaine
 
 function updateWeekCharts() {
     // Mettez à jour les graphiques de la semaine
