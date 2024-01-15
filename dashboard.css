@@ -15,7 +15,11 @@
   }
 
 .custom-padding-graph{
-    padding: 10%;
+    padding-bottom: 2%;
     padding-top: 2%;
 }
 
+
+.bg-grey{
+    background-color: rgba(211, 211, 211, 0.651);
+}

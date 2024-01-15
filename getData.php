@@ -40,7 +40,7 @@
             $stmt->bindParam(':humidité', $humidité);
             $stmt->bindParam(':patmosphérique', $patmosphérique);
             $stmt->bindParam(':date', $date);
-            $stmt->bindParam(':heure', $heure);
+            $stmt->bindParam(':Heure', $heure);
             $stmt->bindParam(':idrelevé', $idrelevé);
 
             try {

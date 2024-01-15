@@ -1,82 +1,73 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+    date_default_timezone_set('Europe/Paris');
 
-$host = "localhost";
-$dbname = "iotmeteo";
-$user = "damien";
-$password = "damien";
+    $host = "localhost";
+    $dbname = "IOTMeteo";
+    $user = "postgres";
+    $password = "Paddy2002";
 
-// Connexion à la base de données
-try {
-    $bdd = new PDO("pgsql:host=$host;port=5432;dbname=$dbname", $user, $password);
-    $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    // Vérifier la connexion
-    die("Échec de la connexion à la base de données : " . $e->getMessage());
-}
+    try {
+        $bdd = new PDO("pgsql:host=$host;port=5432;dbname=$dbname", $user, $password);
+        $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    } catch (PDOException $e) {
+        die("Échec de la connexion à la base de données : " . $e->getMessage());
+    }
 
+    if ($_SERVER["REQUEST_METHOD"] == "GET") {
+        // Sélectionner les données pour la semaine en cours
+        $sqlSelectData = 'SELECT température, humidité, patmosphérique, DATE_PART(\'dow\', "date") AS day_of_week FROM readings WHERE "date" >= :startOfWeek AND "date" <= :endOfWeek ORDER BY "date", heure';
+        
+        $startOfWeek = date('Y-m-d', strtotime('last Monday'));
+        $endOfWeek = date('Y-m-d', strtotime('next Sunday'));
 
- if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    // Nouvelle partie pour la moyenne par jour de la semaine
-    $currentDate = date("Y-m-d"); // Date actuelle
-    $dayOfWeek = date("N", strtotime($currentDate)); // Jour de la semaine (1 pour lundi, 2 pour mardi, etc.)
+        $stmtSelectData = $bdd->prepare($sqlSelectData);
+        $stmtSelectData->bindParam(':startOfWeek', $startOfWeek);
+        $stmtSelectData->bindParam(':endOfWeek', $endOfWeek);
+        $stmtSelectData->execute();
+        $data = $stmtSelectData->fetchAll(PDO::FETCH_ASSOC);
 
-    // Calculer la date du lundi de la semaine en cours
-    $mondayDate = date("Y-m-d", strtotime($currentDate . " - " . ($dayOfWeek - 1) . " days"));
+        // Initialiser des tableaux pour stocker les moyennes par jour de la semaine
+        $dailyAveragesTemperature = [];
+        $dailyAveragesHumidite = [];
+        $dailyAveragesPression = [];
 
-    // Récupérer les valeurs moyennes par jour de la semaine
-    $sqlSelectByDay = 'SELECT 
-                        EXTRACT(ISODOW FROM Date) as day_of_week,
-                        AVG(température) as températureMoyenne,
-                        AVG(humidité) as humiditéMoyenne,
-                        AVG(patmosphérique) as pressionMoyenne
-                    FROM readings
-                    WHERE Date >= CURRENT_DATE - EXTRACT(ISODOW FROM CURRENT_DATE)::integer + 1
-                    GROUP BY day_of_week
-                    ORDER BY day_of_week';
+        // Pour chaque jour de la semaine, récupérer les données et calculer la moyenne
+        for ($day = 0; $day < 7; $day++) {
+            // Filtrer les données pour le jour spécifique
+            $filteredData = array_filter($data, function($entry) use ($day) {
+                return intval($entry['day_of_week']) == $day
+                    && is_numeric($entry['température'])
+                    && is_numeric($entry['humidité'])
+                    && is_numeric($entry['patmosphérique']);
+            });
 
-$stmtSelectByDay = $bdd->prepare($sqlSelectByDay);
+            // Calculer les moyennes
+            $temperatureMoyenne = count($filteredData) > 0 ? array_sum(array_column($filteredData, 'température')) / count($filteredData) : 0;
+            $humiditeMoyenne = count($filteredData) > 0 ? array_sum(array_column($filteredData, 'humidité')) / count($filteredData) : 0;
+            $pressionMoyenne = count($filteredData) > 0 ? array_sum(array_column($filteredData, 'patmosphérique')) / count($filteredData) : 0;
 
-try {
-    $stmtSelectByDay->execute();
-    $valuesByDay = $stmtSelectByDay->fetchAll(PDO::FETCH_ASSOC);
-
-    if (!empty($valuesByDay)) {
-        echo '<h2>Moyennes par jour pour la semaine en cours :</h2>';
-
-        // Initialisez le tableau des moyennes par jour
-        $moyennesParJour = array();
-
-        foreach ($valuesByDay as $value) {
-            $dayOfWeek = $value['day_of_week'];
-            $températureMoyenne = $value['températuremoyenne'];
-            $humiditéMoyenne = $value['humiditémoyenne'];
-            $pressionMoyenne = $value['pressionmoyenne'];
-
-            // Stockez les moyennes dans le tableau
-            $moyennesParJour[$dayOfWeek] = array(
-                'température' => $températureMoyenne,
-                'humidité' => $humiditéMoyenne,
-                'pression' => $pressionMoyenne
-            );
+            // Ajouter les moyennes au tableau avec le jour de la semaine correspondant
+            $dailyAveragesTemperature[$day] = $temperatureMoyenne;
+            $dailyAveragesHumidite[$day] = $humiditeMoyenne;
+            $dailyAveragesPression[$day] = $pressionMoyenne;
         }
 
-        // Encodez le tableau en JSON
-        $moyennesParJourJson = json_encode($moyennesParJour);
+        // Encoder les tableaux en JSON
+        $jsonDailyAveragesTemperature = json_encode($dailyAveragesTemperature);
+        $jsonDailyAveragesHumidite = json_encode($dailyAveragesHumidite);
+        $jsonDailyAveragesPression = json_encode($dailyAveragesPression);
 
-        // Imprimez le script JavaScript
-        var_dump($moyennesParJour);
-echo '<script>';
-echo 'const moyennesParJour = ' . json_encode($moyennesParJour) . ';';
-echo '</script>';
+        // Fermer la connexion à la base de données
+        $bdd = null;
 
-    } else {
-        echo "Aucune valeur trouvée pour la semaine en cours.";
+        // Retourner les données JSON
+        echo json_encode([
+            'temperatureWeek' => $jsonDailyAveragesTemperature,
+            'humiditeWeek' => $jsonDailyAveragesHumidite,
+            'pressionWeek' => $jsonDailyAveragesPression,
+        ]);
     }
-} catch (PDOException $e) {
-    echo "Erreur lors de la récupération des données : " . $e->getMessage();
-}}
-
 ?>
