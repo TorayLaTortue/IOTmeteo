@@ -2,11 +2,15 @@
         ini_set('display_errors', 1);
         ini_set('display_startup_errors', 1);
         error_reporting(E_ALL);
+        // Définir le fuseau horaire à "Europe/Paris"
+        date_default_timezone_set('Europe/Paris');
 
         
         $host = "localhost";
+        // $dbname = "iotmeteo";
         $dbname = "IOTMeteo";
         $user = "postgres";
+        // $password = "damiens";
         $password = "Paddy2002";
         
 
@@ -25,19 +29,19 @@
         $patmosphérique = $_POST['patmosphérique'];
         $date = $_POST['date'];
         $heure = $_POST['heure'];
-        $idsonde = $_POST['idsonde'];
+        
 
-        if (isset($température, $humidité, $patmosphérique, $date, $heure, $idsonde)) {
+        if (isset($température, $humidité, $patmosphérique, $date, $heure)) {
             // Préparer la requête SQL
-            $sqlInsertReadings = 'INSERT INTO Readings (température, humidité, patmosphérique, Date, Heure, idsonde) VALUES (:température, :humidité, :patmosphérique, :date, :heure, :idsonde)';
+            $sqlInsertReadings = 'INSERT INTO Readings (température, humidité, patmosphérique, Date, Heure) VALUES (:température, :humidité, :patmosphérique, :date, :heure, :idrelevé)';
 
             $stmt = $bdd->prepare($sqlInsertReadings);
             $stmt->bindParam(':température', $température);
             $stmt->bindParam(':humidité', $humidité);
             $stmt->bindParam(':patmosphérique', $patmosphérique);
             $stmt->bindParam(':date', $date);
-            $stmt->bindParam(':heure', $heure);
-            $stmt->bindParam(':idsonde', $idsonde);
+            $stmt->bindParam(':Heure', $heure);
+            
 
             try {
                 $stmt->execute();
@@ -48,44 +52,78 @@
         } else {
             echo "Certaines données sont manquantes.";
         }
-    } elseif ($_SERVER["REQUEST_METHOD"] == "GET") {
-// Récupérer la moyenne de la température des 5 dernières valeurs depuis la table readings
-$sqlSelectReadings = 'SELECT température FROM readings ORDER BY idsonde DESC LIMIT 5';
-$stmtSelect = $bdd->prepare($sqlSelectReadings);
-$stmtSelect->execute();
-$temperatures = $stmtSelect->fetchAll(PDO::FETCH_COLUMN);
+    } 
+        
+        elseif ($_SERVER["REQUEST_METHOD"] == "GET") {
+            $currentDate = date('Y-m-d');
 
-// Calculer la moyenne de la température
-$températureMoyenne = array_sum($temperatures) / count($temperatures);
+    // Sélectionner les heures distinctes pour la journée en cours
+    $sqlSelectDistinctHours = 'SELECT DISTINCT heure FROM readings WHERE Date = :currentDate ORDER BY heure';
+    $stmtSelectDistinctHours = $bdd->prepare($sqlSelectDistinctHours);
+    $stmtSelectDistinctHours->bindParam(':currentDate', $currentDate);
+    $stmtSelectDistinctHours->execute();
+    $distinctHours = $stmtSelectDistinctHours->fetchAll(PDO::FETCH_COLUMN);
 
-// Récupérer la moyenne de l'humidité des 5 dernières valeurs depuis la table readings
-$sqlSelectHumidity = 'SELECT humidité FROM readings ORDER BY idsonde DESC LIMIT 5';
-$stmtSelectHumidity = $bdd->prepare($sqlSelectHumidity);
-$stmtSelectHumidity->execute();
-$humidities = $stmtSelectHumidity->fetchAll(PDO::FETCH_COLUMN);
+    // Initialiser des tableaux pour stocker les moyennes par heure
+    $hourlyAveragesTemperature = [];
+    $hourlyAveragesHumidite = [];
+    $hourlyAveragesPression = [];
 
-// Calculer la moyenne de l'humidité
-$humiditéMoyenne = array_sum($humidities) / count($humidities);
+    // Pour chaque heure distincte, récupérer les données et calculer la moyenne
+    foreach ($distinctHours as $hour) {
+        // Sélectionner les données pour l'heure spécifiée
+        $sqlSelectData = 'SELECT température, humidité, patmosphérique FROM readings WHERE Date = :currentDate AND heure = :hour ORDER BY idrelevé DESC';
+        $stmtSelectData = $bdd->prepare($sqlSelectData);
+        $stmtSelectData->bindParam(':currentDate', $currentDate);
+        $stmtSelectData->bindParam(':hour', $hour);
+        $stmtSelectData->execute();
+        $data = $stmtSelectData->fetchAll(PDO::FETCH_ASSOC);
 
-// Récupérer la moyenne de la pression des 5 dernières valeurs depuis la table readings
-$sqlSelectpression = 'SELECT patmosphérique FROM readings ORDER BY idsonde DESC LIMIT 5';
-$stmtSelectpression = $bdd->prepare($sqlSelectpression); // Correction du nom de la variable
-$stmtSelectpression->execute();
-$pression = $stmtSelectpression->fetchAll(PDO::FETCH_COLUMN);
+        // Calculer les moyennes
+        $temperatureMoyenne = count($data) > 0 ? array_sum(array_column($data, 'température')) / count($data) : 0;
+        $humiditeMoyenne = count($data) > 0 ? array_sum(array_column($data, 'humidité')) / count($data) : 0; // if else 
+        $pressionMoyenne = count($data) > 0 ? array_sum(array_column($data, 'patmosphérique')) / count($data) : 0;
 
-// Calculer la moyenne de la pression
-$pressionMoyenne = array_sum($pression) / count($pression);
-
-echo '<h2>Moyenne des 5 dernières valeurs :</h2>';
-echo '<p>température : ' . $températureMoyenne . '</p>';
-echo '<p>humidité : ' . $humiditéMoyenne . '</p>';
-echo '<p>pression : ' . $pressionMoyenne . '</p>';
-
-// Transmettre les données au script JavaScript
-echo '<script>';
-echo 'const températureMoyenne = ' . json_encode($températureMoyenne) . ';';
-echo 'const humiditéMoyenne = ' . json_encode($humiditéMoyenne) . ';';
-echo 'const pressionMoyenne = ' . json_encode($pressionMoyenne) . ';';
-echo '</script>';
+        // Ajouter les moyennes au tableau avec l'heure correspondante
+        $hourlyAveragesTemperature[$hour] = $temperatureMoyenne;
+        $hourlyAveragesHumidite[$hour] = $humiditeMoyenne;
+        $hourlyAveragesPression[$hour] = $pressionMoyenne;
     }
+
+    // Encoder les tableaux en JSON
+    $jsonHourlyAveragesTemperature = json_encode($hourlyAveragesTemperature);
+    $jsonHourlyAveragesHumidite = json_encode($hourlyAveragesHumidite);
+    $jsonHourlyAveragesPression = json_encode($hourlyAveragesPression);
+
+    // Afficher les données JavaScript
+    echo '<script>';
+    echo 'const labels = ' . json_encode($distinctHours) . ';';
+    echo 'const datasetsTemperature = [{';
+    echo '    label: "Température",';
+    echo '    data: ' . $jsonHourlyAveragesTemperature . ',';
+    echo '    fill: false,';
+    echo '    backgroundColor: "red",';
+    echo '    tension: 0.4';
+    echo '}];';
+
+    echo 'const datasetsHumidite = [{';
+    echo '    label: "Humidité",';
+    echo '    data: ' . $jsonHourlyAveragesHumidite . ',';
+    echo '    fill: false,';
+    echo '    backgroundColor: "turquoise",';
+    echo '    tension: 0.4';
+    echo '}];';
+
+    echo 'const datasetsPression = [{';
+    echo '    label: "Pression",';
+    echo '    data: ' . $jsonHourlyAveragesPression . ',';
+    echo '    fill: false,';
+    echo '    backgroundColor: "grey",';
+    echo '    tension: 0.4';
+    echo '}];';
+    echo '</script>';
+
+}
 ?>
+
+    
