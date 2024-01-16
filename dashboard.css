@@ -1,73 +1,25 @@
-html{
-    background-color: lightgray;
+.main-body{
+    background-color: lightgrey;
+}
+
+/* Ajoutez ces styles à votre fichier CSS */
+.bg-orange {
+    background-color: #FFA500; /* Couleur orange */
+}
+.bg-black{
+    background-color: black;
+}
+
+.text-purple {
+    color: blueviolet;
+  }
+
+.custom-padding-graph{
+    padding-bottom: 2%;
+    padding-top: 2%;
 }
 
 
-
-/* Styles pour l'en-tête */
-.site-header {
-    background-color: rgba(255, 183, 2, 1);
-    padding: 10px 0;
-    width: 100%;
-}
-
-/* Styles pour le conteneur de l'en-tête */
-.header-container {
-    display: flex;
-    justify-content:space-around;
-    align-items: center;
-    padding: 0 20px;
-}
-
-/* Styles pour la navigation */
-nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-}
-
-nav img {
-    width: 12%;
-}
-
-nav h1 {
-    margin: 0;
-}
-
-/* Styles pour la colonne à gauche */
-.left-column {
-    background-color: #f1f1f1; /* Couleur de fond de la colonne */
-    padding: 20px; /* Espacement interne de la colonne */
-    width: 200px; /* Largeur de la colonne */
-    box-shadow: 2px 0 5px #888; /* Ombre légère à droite de la colonne */
-}
-
-.left-column button {
-    display: flex;
-    width: 100%; /* Les boutons prennent 100% de la largeur de la colonne */
-    margin-bottom: 10px; /* Espacement entre les boutons */
-}
-
-
-.content-body{
-    display: flex;
-    
-
-}
-
-.dashboard{
-    display: flex;
-    width: 100%;
-    margin: 20px;
-    flex-wrap: wrap;
-    align-items: center;
-}
-
-aside{
-    display:list-item;
-}
-#lineCanvasTemp{
-    width: 150px;
-    height: 150px;
+.bg-grey{
+    background-color: rgb(104, 207, 255);
 }
