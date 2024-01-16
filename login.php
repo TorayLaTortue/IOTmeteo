@@ -4,10 +4,10 @@ session_start();
 
 $host = "localhost";
 // $dbname = "iotmeteo";
-$dbname = "IOTMeteo";
-$user = "postgres";
+$dbname = "iotmeteo";
+$user = "damien";
 // $password = "damiens";
-$password = "Paddy2002";
+$password = "damien";
 
 try {
     $bdd = new PDO("pgsql:host=$host;dbname=$dbname", $user, $password);
@@ -20,19 +20,19 @@ $error_message = "";
 
 // Logique de connexion
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])) {
-    $email_utilisateur = $_POST["email_utilisateur"];
-    $mot_de_passe = $_POST["mot_de_passe"];
+    $email = $_POST["email"];
+    $mdp = $_POST["mdp"];
 
-    $query = "SELECT idutilisateur, email_utilisateur, mot_de_passe FROM utilisateurs WHERE email_utilisateur = :email_utilisateur";
+    $query = "SELECT idutilisateur, email, mdp FROM utilisateurs WHERE email = :email";
     $statement = $bdd->prepare($query);
-    $statement->bindParam(":email_utilisateur", $email_utilisateur, PDO::PARAM_STR);
+    $statement->bindParam(":email", $email, PDO::PARAM_STR);
     $statement->execute();
 
     $result = $statement->fetch(PDO::FETCH_ASSOC);
 
-    if ($result && $mot_de_passe === $result['mot_de_passe']) {
+    if ($result && $mdp === $result['mdp']) {
         $_SESSION['idutilisateur'] = $result['idutilisateur'];
-        $_SESSION['email_utilisateur'] = $result['email_utilisateur'];
+        $_SESSION['email'] = $result['email'];
         header("Location: dashboard.php");
         exit();
     } else {
@@ -44,12 +44,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])) {
 
 // Traitement du formulaire d'inscription
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["inscription"])) {
-    $email = $_POST["email_utilisateur"];
-    $mot_de_passe = $_POST["mot_de_passe"];
-    $ville = $_POST["ville_utilisateur"];
-    $prenom = $_POST["prenom_utilisateur"];
+    $email = $_POST["email"];
+    $mdp = $_POST["mdp"];
+    $ville = $_POST["ville"];
+    $prenom = $_POST["prenom"];
 
-    $query = "SELECT COUNT(*) FROM utilisateurs WHERE email_utilisateur = :email";
+    $query = "SELECT COUNT(*) FROM utilisateurs WHERE email = :email";
     $count = $bdd->prepare($query);
     $count->bindParam(":email", $email, PDO::PARAM_STR);
     $count->execute();
@@ -57,13 +57,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["inscription"])) {
     if ($count->fetchColumn() > 0) {
         $error_message = "Cet email est déjà utilisé. Veuillez en choisir un autre.";
     } else {
-        $insert_query = "INSERT INTO utilisateurs (email_utilisateur, mot_de_passe, ville_utilisateur, prenom_utilisateur) 
-        VALUES (:email, :mot_de_passe, :ville, :prenom)";
+        $insert_query = "INSERT INTO utilisateurs (email, mdp, ville, prenom) 
+        VALUES (:email, :mdp, :ville, :prenom)";
 
         $insert_stmt = $bdd->prepare($insert_query);
         
         $insert_stmt->bindParam(":email", $email, PDO::PARAM_STR);
-        $insert_stmt->bindParam(":mot_de_passe", $mot_de_passe, PDO::PARAM_STR);
+        $insert_stmt->bindParam(":mdp", $mdp, PDO::PARAM_STR);
         $insert_stmt->bindParam(":ville", $ville, PDO::PARAM_STR);
         $insert_stmt->bindParam(":prenom", $prenom, PDO::PARAM_STR);
 
@@ -94,11 +94,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["inscription"])) {
         <?php if (!empty($error_message)) { echo "<p>$error_message</p>"; } ?>
 
         <form method="post" action="login.php">
-            <label for="email_utilisateur">Email:</label>
-            <input type="text" name="email_utilisateur" id="email_utilisateur" required>
+            <label for="email">Email:</label>
+            <input type="text" name="email" id="email" required>
 
-            <label for="mot_de_passe">Mot de passe:</label>
-            <input type="password" name="mot_de_passe" id="mot_de_passe" required>
+            <label for="mdp">Mot de passe:</label>
+            <input type="password" name="mdp" id="mdp" required>
 
             <input type="submit" name="login" value="Se connecter">
         </form>
@@ -113,17 +113,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["inscription"])) {
         <span class="close">&times;</span>
         <h2>Inscription</h2>
         <form action="login.php" method="post">
-            <label for="email_utilisateur">Email :</label>
-            <input type="email" id="email_utilisateur" name="email_utilisateur" required>
+            <label for="email">Email :</label>
+            <input type="email" id="email" name="email" required>
 
-            <label for="mot_de_passe">Mot de passe :</label>
-            <input type="password" id="mot_de_passe" name="mot_de_passe" required>
+            <label for="mdp">Mot de passe :</label>
+            <input type="password" id="mdp" name="mdp" required>
             
-            <label for="ville_utilisateur">Ville :</label>
-            <input type="text" id="ville_utilisateur" name="ville_utilisateur" required>
+            <label for="ville">Ville :</label>
+            <input type="text" id="ville" name="ville" required>
             
-            <label for="prenom_utilisateur">Prénom :</label>
-            <input type="text" id="prenom_utilisateur" name="prenom_utilisateur" required>
+            <label for="prenom">Prénom :</label>
+            <input type="text" id="prenom" name="prenom" required>
             
             <button type="submit" name="inscription">S'inscrire</button>
         </form>

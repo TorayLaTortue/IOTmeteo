@@ -5,9 +5,9 @@
 
         
         $host = "localhost";
-        $dbname = "IOTMeteo";
-        $user = "postgres";
-        $password = "Vemer";
+        $dbname = "iotmeteo";
+        $user = "damien";
+        $password = "damien";
         
 
         // Connexion à la base de données
@@ -20,24 +20,24 @@
     
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $temperature = $_POST['temperature'];
-        $humidite = $_POST['humidite'];
-        $pression = $_POST['pression'];
+        $temperature = $_POST['température'];
+        $humidite = $_POST['humidité'];
+        $pression = $_POST['patmosphérique'];
         $date = $_POST['date'];
         $heure = $_POST['heure'];
-        $idsonde = $_POST['idsonde'];
+        
 
         if (isset($temperature, $humidite, $pression, $date, $heure, $idsonde)) {
             // Préparer la requête SQL
-            $sqlInsertReadings = 'INSERT INTO Readings (Temperature, Humidite, Pression, Date, Heure, idsonde) VALUES (:temperature, :humidite, :pression, :date, :heure, :idsonde)';
+            $sqlInsertReadings = 'INSERT INTO Readings (Temperature, Humidite, Pression, Date, Heure, idsonde) VALUES (:température, :humidité, :patmosphérique, :date, :heure)';
 
             $stmt = $bdd->prepare($sqlInsertReadings);
-            $stmt->bindParam(':temperature', $temperature);
-            $stmt->bindParam(':humidite', $humidite);
-            $stmt->bindParam(':pression', $pression);
+            $stmt->bindParam(':température', $temperature);
+            $stmt->bindParam(':humidité', $humidite);
+            $stmt->bindParam(':patmosphérique', $pression);
             $stmt->bindParam(':date', $date);
             $stmt->bindParam(':heure', $heure);
-            $stmt->bindParam(':idsonde', $idsonde);
+            
 
             try {
                 $stmt->execute();

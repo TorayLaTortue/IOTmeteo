@@ -8,10 +8,10 @@
         
         $host = "localhost";
         // $dbname = "iotmeteo";
-        $dbname = "IOTMeteo";
-        $user = "postgres";
+        $dbname = "iotmeteo";
+        $user = "damien";
         // $password = "damiens";
-        $password = "Paddy2002";
+        $password = "damien";
         
 
         // Connexion à la base de données
@@ -29,11 +29,10 @@
         $patmosphérique = $_POST['patmosphérique'];
         $date = $_POST['date'];
         $heure = $_POST['heure'];
-        $idrelevé = $_POST['idrelevé'];
 
-        if (isset($température, $humidité, $patmosphérique, $date, $heure, $idrelevé)) {
+        if (isset($température, $humidité, $patmosphérique, $date, $heure)) {
             // Préparer la requête SQL
-            $sqlInsertReadings = 'INSERT INTO Readings (température, humidité, patmosphérique, Date, Heure, idrelevé) VALUES (:température, :humidité, :patmosphérique, :date, :heure, :idrelevé)';
+            $sqlInsertReadings = 'INSERT INTO Readings (température, humidité, patmosphérique, Date, Heure) VALUES (:température, :humidité, :patmosphérique, :date, :heure)';
 
             $stmt = $bdd->prepare($sqlInsertReadings);
             $stmt->bindParam(':température', $température);
@@ -41,7 +40,7 @@
             $stmt->bindParam(':patmosphérique', $patmosphérique);
             $stmt->bindParam(':date', $date);
             $stmt->bindParam(':Heure', $heure);
-            $stmt->bindParam(':idrelevé', $idrelevé);
+            
 
             try {
                 $stmt->execute();
@@ -72,7 +71,7 @@
     // Pour chaque heure distincte, récupérer les données et calculer la moyenne
     foreach ($distinctHours as $hour) {
         // Sélectionner les données pour l'heure spécifiée
-        $sqlSelectData = 'SELECT température, humidité, patmosphérique FROM readings WHERE Date = :currentDate AND heure = :hour ORDER BY idrelevé DESC';
+        $sqlSelectData = 'SELECT température, humidité, patmosphérique FROM readings WHERE Date = :currentDate AND heure = :hour ';
         $stmtSelectData = $bdd->prepare($sqlSelectData);
         $stmtSelectData->bindParam(':currentDate', $currentDate);
         $stmtSelectData->bindParam(':hour', $hour);
