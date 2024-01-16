@@ -1,6 +1,13 @@
 <!--http://127.0.0.1/Station%20m%c3%a9t%c3%a9o/IOTmeteo/login.php -->
 <?php
+// Démarrer la session
 session_start();
+
+// Vérifier si l'utilisateur est connecté
+if (!isset($_SESSION['idutilisateur'])) {
+    header("Location: ../login.php");
+    exit();
+}
 
 $host = "localhost";
 // $dbname = "iotmeteo";
