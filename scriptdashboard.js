@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
              data: JSON.parse(data.temperatureWeek),
              fill: false,
              backgroundColor: "red",
-             tension: 0.1
+             tension: 0.4
          }]);
  
          // Graphique d'Humidité de la semaine
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
              data: JSON.parse(data.humiditeWeek),
              fill: false,
              backgroundColor: "turquoise",
-             tension: 0.1
+             tension: 0.4
          }]); 
  
          // Graphique de Pression de la semaine
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
              data: JSON.parse(data.pressionWeek),
              fill: false,
              backgroundColor: "grey",
-             tension: 0.1
+             tension: 0.4
          }]); 
      })
      .catch(error => console.error('Erreur lors de la récupération des données:', error));
@@ -63,8 +63,16 @@ document.addEventListener("DOMContentLoaded", function () {
         return new Chart(ctx, {
             type: 'line',
             data: {
-                labels: labels,  
-                datasets: [dataset]
+                labels: labels,
+                datasets: [{
+                    label: dataset.label,
+                    data: dataset.data,
+                    fill: dataset.fill,
+                    backgroundColor: dataset.backgroundColor,
+                    borderColor: 'black', //couleur de la ligne à noir
+                    pointRadius: 5, // Taille des points
+                    tension: dataset.tension
+                }]
             },
             options: {
                 responsive: false,
@@ -76,52 +84,73 @@ document.addEventListener("DOMContentLoaded", function () {
                 scales: {
                     y: {
                         ticks: {
-                            color: "#333"
+                            color: "#333",
+                            font: {
+                                weight: 'bold'
+                            }
                         },
-                        suggestedMin: 0, // pression à changer
-                        suggestedMax: 40
+                        suggestedMax: 50
                     },
                     x: {
                         ticks: {
-                            color: "#333"
+                            color: "#333",
+                            font: {
+                                weight: 'bold'
+                            }
                         }
                     }
                 }
             }
         });
     }
+    
+    
 
-function createLineChartWeek(ctx, labels, dataset) {
-    return new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: labels,  
-            datasets: dataset
-        },
-        options: {
-            responsive: false,
-            elements: {
-                point: {
-                    pointBorderColor: "#333"
-                }
+    function createLineChartWeek(ctx, labels, dataset) {
+        return new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: dataset[0].label,
+                    data: dataset[0].data,
+                    fill: dataset[0].fill,
+                    backgroundColor: dataset[0].backgroundColor,
+                    borderColor: 'black', //couleur de la ligne à noir
+                    pointRadius: 5, // taille des points
+                    tension: dataset[0].tension
+                }]
             },
-            scales: {
-                y: {
-                    ticks: {
-                        color: "#333"
-                    },
-                    suggestedMin: 0, // pression à changer
-                    suggestedMax: 100
+            options: {
+                responsive: false,
+                elements: {
+                    point: {
+                        pointBorderColor: "#333"
+                    }
                 },
-                x: {
-                    ticks: {
-                        color: "#333"
+                scales: {
+                    y: {
+                        ticks: {
+                            color: "#333",
+                            font: {
+                                weight: 'bold'
+                            }
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: "#333",
+                            font: {
+                                weight: 'bold'
+                            }
+                        }
                     }
                 }
             }
-        }
-    });
-}
+        });
+    }
+    
+    
 const dataByDate = {};  // Utilisez un tableau associatif pour stocker les données filtrées par date
 
 // Pour chaque jour de la semaine, récupérer les données et calculer la moyenne

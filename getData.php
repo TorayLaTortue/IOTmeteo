@@ -103,7 +103,7 @@
     echo '    data: ' . $jsonHourlyAveragesTemperature . ',';
     echo '    fill: false,';
     echo '    backgroundColor: "red",';
-    echo '    tension: 0.1';
+    echo '    tension: 0.4';
     echo '}];';
 
     echo 'const datasetsHumidite = [{';
@@ -111,7 +111,7 @@
     echo '    data: ' . $jsonHourlyAveragesHumidite . ',';
     echo '    fill: false,';
     echo '    backgroundColor: "turquoise",';
-    echo '    tension: 0.1';
+    echo '    tension: 0.4';
     echo '}];';
 
     echo 'const datasetsPression = [{';
@@ -119,7 +119,7 @@
     echo '    data: ' . $jsonHourlyAveragesPression . ',';
     echo '    fill: false,';
     echo '    backgroundColor: "grey",';
-    echo '    tension: 0.1';
+    echo '    tension: 0.4';
     echo '}];';
     echo '</script>';
 

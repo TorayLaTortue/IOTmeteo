@@ -31,16 +31,16 @@
   <!-- Contenu principal -->
   <div class="container-fluid d-flex mt-3">
     <div class="dashboard text-center">
-      <h2 class="mt-3">Tableau de bord</h2>
+      <h1 class="mt-3">Tableau de bord</h1>
+      <h2 class="mt-3">Journée/Semaine</h2>
 
       <div class="custom-padding-graph mt-3 justify-content-evenly d-flex flex-wrap">
-        <canvas class="mt-5 bg-grey rounded-4 border border-3 border-black" id="lineCanvasTemp" aria-label="chart" role="img" width="400" height="400"></canvas>
-        <canvas class="mt-5 bg-grey rounded-4 border border-3 border-black" id="lineCanvasHumidité" aria-label="chart" role="img" width="400" height="400"></canvas>
-        <canvas class="mt-5 bg-grey rounded-4 border border-3 border-black" id="lineCanvasPression" aria-label="chart" role="img" width="400" height="400"></canvas>
-        <canvas class="mt-5 bg-grey rounded-4 border border-3 border-black" id="lineCanvasTempWeek" aria-label="chart" role="img" width="400" height="400"></canvas>
-        <canvas class="mt-5 bg-grey rounded-4 border border-3 border-black" id="lineCanvasHumiditéWeek" aria-label="chart" role="img" width="400" height="400"></canvas>
-        <canvas class="mt-5 bg-grey rounded-4 border border-3 border-black" id="lineCanvasPressionWeek" aria-label="chart" role="img" width="400" height="400"></canvas>
-
+        <canvas class="mt-5 p-3 bg-grey rounded-4 border border-3 border-black" id="lineCanvasTemp" aria-label="chart" role="img" width="450" height="450"></canvas>
+        <canvas class="mt-5 p-3 bg-grey rounded-4 border border-3 border-black" id="lineCanvasHumidité" aria-label="chart" role="img" width="450" height="450"></canvas>
+        <canvas class="mt-5 p-3 bg-grey rounded-4 border border-3 border-black" id="lineCanvasPression" aria-label="chart" role="img" width="450" height="450"></canvas>
+        <canvas class="mt-5 p-3 bg-grey rounded-4 border border-3 border-black" id="lineCanvasTempWeek" aria-label="chart" role="img" width="450" height="450"></canvas>
+        <canvas class="mt-5 p-3 bg-grey rounded-4 border border-3 border-black" id="lineCanvasHumiditéWeek" aria-label="chart" role="img" width="450" height="450"></canvas>
+        <canvas class="mt-5 p-3 bg-grey rounded-4 border border-3 border-black" id="lineCanvasPressionWeek" aria-label="chart" role="img" width="450" height="450"></canvas>
       </div>
     </div>
   </div>
