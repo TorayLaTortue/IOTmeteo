@@ -33,6 +33,7 @@
         if (isset($température, $humidité, $patmosphérique, $date, $heure)) {
             // Préparer la requête SQL
             $sqlInsertReadings = 'INSERT INTO Readings (température, humidité, patmosphérique, Date, Heure) VALUES (:température, :humidité, :patmosphérique, :date, :heure)';
+            $sqlInsertReadings = 'INSERT INTO Readings (température, humidité, patmosphérique, Date, Heure) VALUES (:température, :humidité, :patmosphérique, :date, :heure)';
 
             $stmt = $bdd->prepare($sqlInsertReadings);
             $stmt->bindParam(':température', $température);
@@ -40,6 +41,7 @@
             $stmt->bindParam(':patmosphérique', $patmosphérique);
             $stmt->bindParam(':date', $date);
             $stmt->bindParam(':Heure', $heure);
+            
             
 
             try {
