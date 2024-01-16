@@ -29,11 +29,11 @@
         $patmosphérique = $_POST['patmosphérique'];
         $date = $_POST['date'];
         $heure = $_POST['heure'];
-        $idrelevé = $_POST['idrelevé'];
+        
 
-        if (isset($température, $humidité, $patmosphérique, $date, $heure, $idrelevé)) {
+        if (isset($température, $humidité, $patmosphérique, $date, $heure)) {
             // Préparer la requête SQL
-            $sqlInsertReadings = 'INSERT INTO Readings (température, humidité, patmosphérique, Date, Heure, idrelevé) VALUES (:température, :humidité, :patmosphérique, :date, :heure, :idrelevé)';
+            $sqlInsertReadings = 'INSERT INTO Readings (température, humidité, patmosphérique, Date, Heure) VALUES (:température, :humidité, :patmosphérique, :date, :heure, :idrelevé)';
 
             $stmt = $bdd->prepare($sqlInsertReadings);
             $stmt->bindParam(':température', $température);
@@ -41,7 +41,7 @@
             $stmt->bindParam(':patmosphérique', $patmosphérique);
             $stmt->bindParam(':date', $date);
             $stmt->bindParam(':Heure', $heure);
-            $stmt->bindParam(':idrelevé', $idrelevé);
+            
 
             try {
                 $stmt->execute();
@@ -81,7 +81,7 @@
 
         // Calculer les moyennes
         $temperatureMoyenne = count($data) > 0 ? array_sum(array_column($data, 'température')) / count($data) : 0;
-        $humiditeMoyenne = count($data) > 0 ? array_sum(array_column($data, 'humidité')) / count($data) : 0;
+        $humiditeMoyenne = count($data) > 0 ? array_sum(array_column($data, 'humidité')) / count($data) : 0; // if else 
         $pressionMoyenne = count($data) > 0 ? array_sum(array_column($data, 'patmosphérique')) / count($data) : 0;
 
         // Ajouter les moyennes au tableau avec l'heure correspondante
@@ -123,10 +123,6 @@
     echo '}];';
     echo '</script>';
 
-    // echo 'console.log("Labels (PHP):", ' . json_encode($distinctHours) . ');';
-    // echo 'console.log("Datasets Temperature (PHP):", ' . json_encode($hourlyAveragesTemperature) . ');';
-    // echo 'console.log("Datasets Humidite (PHP):", ' . json_encode($hourlyAveragesHumidite) . ');';
-    // echo 'console.log("Datasets Pression (PHP):", ' . json_encode($hourlyAveragesPression) . ');';
 }
 ?>
 

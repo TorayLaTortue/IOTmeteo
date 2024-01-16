@@ -1,29 +1,24 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Graphique de Température
+    // Graphique du jour
     const ctxTemp = document.getElementById('lineCanvasTemp').getContext('2d');
     lineChartTemp = createLineChart(ctxTemp, labels, datasetsTemperature[0]);
 
-    // Graphique d'Humidité
     const ctxHumidité = document.getElementById('lineCanvasHumidité').getContext('2d');
     lineChartHumidité = createLineChart(ctxHumidité, labels, datasetsHumidite[0]);
 
-    // Graphique de Pression
     const ctxPression = document.getElementById('lineCanvasPression').getContext('2d');
     lineChartPression = createLineChart(ctxPression, labels, datasetsPression[0]);
 
-    // Graphique de la température de la semaine
+    // Graphique de la semaine
     const ctxTempWeek = document.getElementById('lineCanvasTempWeek').getContext('2d');
     let lineChartTempWeek;
 
-    // Graphique d'Humidité de la semaine
     const ctxHumiditéWeek = document.getElementById('lineCanvasHumiditéWeek').getContext('2d');
     let lineChartHumiditéWeek;
 
-    // Graphique de Pression de la semaine
     const ctxPressionWeek = document.getElementById('lineCanvasPressionWeek').getContext('2d');
     let lineChartPressionWeek;
 
-     // Utilisez AJAX pour obtenir les données de la semaine
      fetch('semaine.php')
      .then(response => response.json())
      .then(data => {
