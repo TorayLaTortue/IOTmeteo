@@ -23,3 +23,33 @@
 .bg-grey{
     background-color: rgb(104, 207, 255);
 }
+
+
+
+
+@media screen and (max-width: 770px) {
+    .mt-5.p-3.bg-grey.rounded-4.border.border-3.border-black{
+        justify-content: center;
+    }
+
+    .ml-0.mb-0.text-purple.p-4.rounded-pill.display-1.fw-bold{
+        font-size: 200%;
+    }
+
+    .navbar.flex-column.navbar-expand-md.navbar-light.bg-light{
+
+        justify-content: flex-start;
+    }
+
+
+        
+    
+}
+
+
+@media screen and (max-width: 580px) {
+
+    .ml-0.mb-0.text-purple.p-4.rounded-pill.display-1.fw-bold{
+        font-size: 150%;
+    }
+}

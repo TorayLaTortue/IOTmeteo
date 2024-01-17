@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="dashboard.css">
     <?php include ("getData.php")?>
     <?php include ("navbar.php")?>
+    
 
 </head>
 
@@ -20,9 +21,9 @@
 <div class="container-fluid d-flex p-0">
   <!-- Barre de navigation latéral -->
   <nav class="navbar flex-column navbar-expand-md navbar-light bg-light" style="width: 20%; min-height: 100vh; padding-top: 20px;">
-    <button class="mb-3 btn btn-primary btn-lg bg-info" type="button">Sonde :</button>
+    <button class="mb-3 btn btn-primary bg-info" type="button">Sonde :</button>
 
-    <div class="d-grid gap-2 mx-auto">
+    <div class="d-grid gap-2">
       <button class="btn btn-primary" type="button">Sonde 1</button>
       <button class="btn btn-primary" type="button">Sonde 2</button>
     </div>
