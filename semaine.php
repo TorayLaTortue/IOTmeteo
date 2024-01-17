@@ -5,9 +5,9 @@
     date_default_timezone_set('Europe/Paris');
 
     $host = "localhost";
-    $dbname = "iotmeteo";
-    $user = "damien";
-    $password = "damien";
+    $dbname = "IOTMeteo";
+    $user = "postgres";
+    $password = "Paddy2002";
 
     try {
         $bdd = new PDO("pgsql:host=$host;port=5432;dbname=$dbname", $user, $password);
@@ -37,7 +37,6 @@
 
         // Pour chaque jour de la semaine, récupérer les données et calculer la moyenne
         foreach ($data as $entry) {
-            // Récupérer le jour de la semaine et la date
             $day = intval($entry['day_of_week']);
             $date = $entry['date'];
 
