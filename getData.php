@@ -5,44 +5,85 @@
         // Définir le fuseau horaire à "Europe/Paris"
         date_default_timezone_set('Europe/Paris');
 
+        
+        $host = "localhost";
+        $dbname = "IOTMeteo";
+        $user = "postgres";
+        $password = "Paddy2002";
+        
 
-// URL de l'API Flask
-$api_url = 'http://10.191.14.113:5000/readings';
+        // Connexion à la base de données
+        try{
+        $bdd = new PDO("pgsql:host=$host;port=5432;dbname=$dbname", $user, $password);
+        $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);}
+        catch(PDOException $e){// Vérifier la connexion
+        die("Échec de la connexion à la base de données : " . $e->getMessage());}
 
-// Appel à l'API en utilisant file_get_contents avec le contexte configuré
-$response = file_get_contents($api_url);
+    
 
-// Vérification des erreurs
-if ($response === FALSE) {
-    die('Erreur lors de la requête à l\'API');
-}
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $température = $_POST['température'];
+        $humidité = $_POST['humidité'];
+        $patmosphérique = $_POST['patmosphérique'];
+        $date = $_POST['date'];
+        $heure = $_POST['heure'];
 
-// Traitement de la réponse (par exemple, conversion du JSON en tableau associatif)
-$data = json_decode($response, true);
+        if (isset($température, $humidité, $patmosphérique, $date, $heure)) {
+            // Préparer la requête SQL
+            $sqlInsertReadings = 'INSERT INTO Readings (température, humidité, patmosphérique, Date, Heure) VALUES (:température, :humidité, :patmosphérique, :date, :heure)';
+            $sqlInsertReadings = 'INSERT INTO Readings (température, humidité, patmosphérique, Date, Heure) VALUES (:température, :humidité, :patmosphérique, :date, :heure)';
 
-// Utilisation des données
+            $stmt = $bdd->prepare($sqlInsertReadings);
+            $stmt->bindParam(':température', $température);
+            $stmt->bindParam(':humidité', $humidité);
+            $stmt->bindParam(':patmosphérique', $patmosphérique);
+            $stmt->bindParam(':date', $date);
+            $stmt->bindParam(':Heure', $heure);
+            
+            
 
+            try {
+                $stmt->execute();
+                echo "Données insérées avec succès.";
+            } catch (PDOException $e) {
+                echo "Erreur lors de l'insertion des données : " . $e->getMessage();
+            }
+        } else {
+            echo "Certaines données sont manquantes.";
+        }
+    } 
+        
+        elseif ($_SERVER["REQUEST_METHOD"] == "GET") {
+            $currentDate = date('Y-m-d');
 
-if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    $currentDate = date('Y-m-d');
+    // Sélectionner les heures distinctes pour la journée en cours
+    $sqlSelectDistinctHours = 'SELECT DISTINCT heure FROM readings WHERE Date = :currentDate ORDER BY heure';
+    $stmtSelectDistinctHours = $bdd->prepare($sqlSelectDistinctHours);
+    $stmtSelectDistinctHours->bindParam(':currentDate', $currentDate);
+    $stmtSelectDistinctHours->execute();
+    $distinctHours = $stmtSelectDistinctHours->fetchAll(PDO::FETCH_COLUMN);
 
-    // Traitement des données pour obtenir les moyennes par heure
-    // Vous devez adapter cela selon la structure réelle des données renvoyées par l'API
-    $distinctHours = array_unique(array_column($data, 'heure'));
-
+    // Initialiser des tableaux pour stocker les moyennes par heure
     $hourlyAveragesTemperature = [];
     $hourlyAveragesHumidite = [];
     $hourlyAveragesPression = [];
 
+    // Pour chaque heure distincte, récupérer les données et calculer la moyenne
     foreach ($distinctHours as $hour) {
-        $hourData = array_filter($data, function ($item) use ($currentDate, $hour) {
-            return $item['date'] == $currentDate && $item['heure'] == $hour;
-        });
+        // Sélectionner les données pour l'heure spécifiée
+        $sqlSelectData = 'SELECT température, humidité, patmosphérique FROM readings WHERE Date = :currentDate AND heure = :hour ';
+        $stmtSelectData = $bdd->prepare($sqlSelectData);
+        $stmtSelectData->bindParam(':currentDate', $currentDate);
+        $stmtSelectData->bindParam(':hour', $hour);
+        $stmtSelectData->execute();
+        $data = $stmtSelectData->fetchAll(PDO::FETCH_ASSOC);
 
-        $temperatureMoyenne = count($hourData) > 0 ? array_sum(array_column($hourData, 'température')) / count($hourData) : 0;
-        $humiditeMoyenne = count($hourData) > 0 ? array_sum(array_column($hourData, 'humidité')) / count($hourData) : 0;
-        $pressionMoyenne = count($hourData) > 0 ? array_sum(array_column($hourData, 'patmosphérique')) / count($hourData) : 0;
+        // Calculer les moyennes
+        $temperatureMoyenne = count($data) > 0 ? array_sum(array_column($data, 'température')) / count($data) : 0;
+        $humiditeMoyenne = count($data) > 0 ? array_sum(array_column($data, 'humidité')) / count($data) : 0;
+        $pressionMoyenne = count($data) > 0 ? array_sum(array_column($data, 'patmosphérique')) / count($data) : 0;
 
+        // Ajouter les moyennes au tableau avec l'heure correspondante
         $hourlyAveragesTemperature[$hour] = $temperatureMoyenne;
         $hourlyAveragesHumidite[$hour] = $humiditeMoyenne;
         $hourlyAveragesPression[$hour] = $pressionMoyenne;
@@ -80,5 +121,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     echo '    tension: 0.4';
     echo '}];';
     echo '</script>';
+
+    // echo 'console.log("Labels (PHP):", ' . json_encode($distinctHours) . ');';
+    // echo 'console.log("Datasets Temperature (PHP):", ' . json_encode($hourlyAveragesTemperature) . ');';
+    // echo 'console.log("Datasets Humidite (PHP):", ' . json_encode($hourlyAveragesHumidite) . ');';
+    // echo 'console.log("Datasets Pression (PHP):", ' . json_encode($hourlyAveragesPression) . ');';
 }
 ?>
+
+    
